@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
+import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,14 @@ public class FirebaseService {
         return result.get().getUpdateTime().toString();
     }
 
-    public Map<String, Object> getData(String collection, String document) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = firestore.collection(collection).document(document);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-        DocumentSnapshot documentSnapshot = future.get();
-        if (documentSnapshot.exists()) {
-            return documentSnapshot.getData();
-        } else {
-            return null;
-        }
-    }
+    // public Map<String, Object> getData(String collection, String document) throws ExecutionException, InterruptedException {
+    //     DocumentReference docRef = firestore.collection(collection).document(document);
+    //     ApiFuture<DocumentSnapshot> future = docRef.get();
+    //     DocumentSnapshot documentSnapshot = future.get();
+    //     if (documentSnapshot.exists()) {
+    //         return documentSnapshot.getData();
+    //     } else {
+    //         return null;
+    //     }
+    // }
 }

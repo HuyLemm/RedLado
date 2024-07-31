@@ -24,14 +24,13 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("com.google.firebase:firebase-admin:9.0.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.okta.spring:okta-spring-boot-starter:3.0.7")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.security:spring-security-config")
     implementation("org.springframework.security:spring-security-core")
-	implementation("com.google.firebase:firebase-admin:9.0.0")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
