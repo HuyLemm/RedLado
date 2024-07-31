@@ -24,7 +24,6 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.okta.spring:okta-spring-boot-starter:3.0.7")
@@ -44,5 +43,7 @@ tasks.withType<Test> {
 	ignoreFailures = true
 
 }
+
+
 
 
