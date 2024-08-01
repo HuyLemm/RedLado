@@ -39,7 +39,7 @@ out/
 
 ### Hardhat ###
 # Environment files
-.env
+Private.env
 
 package.json
 hardhat.config.js
