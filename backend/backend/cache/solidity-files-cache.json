@@ -1,0 +1,77 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/alex/Desktop/REDLADO-TEST/RedLado/backend/backend/contracts/Lock.sol": {
+      "lastModificationDate": 1722521770234,
+      "contentHash": "dacf0d5cb5b45dc83086de5bc1c26c2c",
+      "sourceName": "contracts/Lock.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "Lock"
+      ]
+    },
+    "/Users/alex/Desktop/REDLADO-TEST/RedLado/backend/backend/contracts/MyContract.sol": {
+      "lastModificationDate": 1722521955466,
+      "contentHash": "a77debe17ac5bfb333a0cdfe1555fd83",
+      "sourceName": "contracts/MyContract.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "MyContract"
+      ]
+    }
+  }
+}
