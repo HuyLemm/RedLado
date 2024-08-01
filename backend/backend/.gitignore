@@ -1,4 +1,5 @@
 HELP.md
+README.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -35,3 +36,15 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Hardhat ###
+# Environment files
+.env
+
+package.json
+hardhat.config.js
+/scripts/deploy.js
+
+
+
+
