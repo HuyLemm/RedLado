@@ -16,8 +16,8 @@ module.exports = {
     }
   },
   networks: {
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/d5c391873fc540b7b117dd4e6b53ba98`, // URL kết nối đến mạng Rinkeby của Infura
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/d5c391873fc540b7b117dd4e6b53ba98`, // URL kết nối đến mạng Rinkeby của Infura
       accounts: [`bde3685acafac0bf25b31e6fe23a3f5d1fdc1379e95994f118ece45eff953cc3`], // Private key để ký giao dịch
     },
   },

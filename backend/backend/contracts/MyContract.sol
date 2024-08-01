@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+
+pragma solidity ^0.8.24;
+import "hardhat/console.sol";
 
 contract MyContract {
     uint public balance = 0;
