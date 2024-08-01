@@ -1,1 +1,8 @@
 backend/backend/src/main/resources/redlado-23a1a-firebase-adminsdk-e0k7b-ff455bb2b7.json
+# Environment files
+.env
+
+# Specific files to ignore
+package.json
+hardhat.config.js
+scripts/deploy.js
