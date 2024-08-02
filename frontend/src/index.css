@@ -1,0 +1,49 @@
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+header .navbar {
+  padding: 0 1rem;
+}
+
+header .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: auto;
+}
+
+header .navbar-nav .nav-link {
+  color: #fff;
+  margin-left: 15px;
+}
+
+header .btn {
+  margin-left: 15px;
+}
+
+main {
+  padding: 60px 0;
+}
+
+main .display-4 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+main .btn {
+  padding: 10px 30px;
+  font-size: 1.2rem;
+}
+
+main .input-group {
+  max-width: 600px;
+  margin: auto;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

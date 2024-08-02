@@ -3,34 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register and Login</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Trading Platform</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MyApp</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="loginLink">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="registerLink">Register</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <!-- Header -->
+  <div id="header-placeholder"></div>
 
-  <div class="container mt-5">
-    <div id="formContainer">
-      <!-- Forms will be injected here by JavaScript -->
+  <!-- Main Content -->
+  <main class="container text-center my-5">
+    <h1 class="display-4">Start Your Trading Today</h1>
+    <div class="d-flex justify-content-center my-4">
+      <button class="btn btn-danger mx-2">Buy</button>
+      <button class="btn btn-secondary mx-2">Sell</button>
     </div>
-  </div>
+    <p class="lead my-4">--- OR ---</p>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search your Game" aria-label="Search your Game">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">Search</button>
+      </div>
+    </div>
+  </main>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Modals -->
+  <div id="modals-placeholder"></div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="components/header/header.js"></script>
+  <script src="components/footer/footer.js"></script>
+  <script src="components/modals/signInModal/signInModal.js"></script>
+  <script src="components/modals/registerModal/registerModal.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

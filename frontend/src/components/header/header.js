@@ -1,8 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Load header
+  // Load header HTML
   axios.get('components/header/header.html')
     .then(response => {
       document.getElementById('header-placeholder').innerHTML = response.data;
+
+      // Apply header CSS module
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'components/header/header.module.css';
+      document.head.appendChild(link);
+
       const signInButton = document.getElementById('sign-in-button');
       const registerButton = document.getElementById('register-button');
 
@@ -13,22 +20,5 @@ document.addEventListener('DOMContentLoaded', function() {
       registerButton.addEventListener('click', function() {
         $('#registerModal').modal('show');
       });
-    });
-
-  // Load footer
-  axios.get('components/footer/footer.html')
-    .then(response => {
-      document.getElementById('footer-placeholder').innerHTML = response.data;
-    });
-
-  // Load modals
-  axios.get('components/modals/signInModal/signInModal.html')
-    .then(response => {
-      document.getElementById('modals-placeholder').innerHTML += response.data;
-    });
-
-  axios.get('components/modals/registerModal/registerModal.html')
-    .then(response => {
-      document.getElementById('modals-placeholder').innerHTML += response.data;
     });
 });
