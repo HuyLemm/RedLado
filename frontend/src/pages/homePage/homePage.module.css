@@ -1,0 +1,80 @@
+/* Styling for the main content area */
+main {
+    padding: 60px 0;
+  }
+  
+  /* Styling for the main heading */
+  main .display-4 {
+    font-size: 4rem; /* Adjust font size here */
+    font-weight: bold; /* Adjust font weight here */
+    color: #dc3545; /* Adjust color here */
+  }
+  
+  /* Styling for buttons (Buy and Sell) */
+  main .btn {
+    padding: 5px 25px; /* Adjust padding here */
+    font-size: 1.2rem; /* Adjust font size here */
+    border-radius: 20px; /* Adjust border radius here */
+  }
+  
+  /* Additional styling for the Buy button */
+  main .btn-buy {
+    background-color: #dc3545; /* Adjust background color here */
+    border-color: #dc3545; /* Adjust border color here */
+  }
+  
+  /* Additional styling for the Sell button */
+  main .btn-sell {
+    background-color: #6c757d; /* Adjust background color here */
+    border-color: #6c757d; /* Adjust border color here */
+  }
+  
+  /* Styling for the input group */
+  main .search-group {
+    max-width: 550px; /* Adjust maximum width here */
+    margin: auto; /* Center the input group */
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7; /* Adjust background color here */
+    border-radius: 20px; /* Adjust border radius here */
+    padding: 7px; /* Adjust padding here */
+  }
+  
+  /* Styling for the search input */
+  main .search-input {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 10px; /* Adjust padding here */
+    border-radius: 20px; /* Adjust border radius here */
+    border: 1px solid transparent;
+  }
+  
+  /* Styling for the hamburger button */
+  main .search-hamburger {
+    border: none;
+    background: none;
+    color: #6c757d; /* Adjust text color here */
+    margin-right: 10px;
+  }
+  
+  /* Styling for the search button */
+  main .search-button {
+    border: none;
+    background: none;
+    color: #6c757d; /* Adjust text color here */
+    margin-left: 10px;
+  }
+  
+  /* Add some hover effects */
+  main .search-hamburger:hover, main .search-button:hover {
+    background-color: #e9ecef; /* Adjust background color here */
+    border-radius: 50%; /* Make buttons circular on hover */
+  }
+  
+  /* Styling for the icon inside the buttons */
+  main .search-hamburger i, main .search-button i {
+    font-size: 1.2rem; /* Adjust icon size here */
+    color: #6c757d; /* Adjust icon color here */
+  }
+  

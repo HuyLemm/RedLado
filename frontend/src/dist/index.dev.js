@@ -1,27 +1,39 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Load header
-  axios.get('components/header/header.html').then(function (response) {
-    document.getElementById('header-placeholder').innerHTML = response.data;
-    var signInButton = document.getElementById('sign-in-button');
-    var registerButton = document.getElementById('register-button');
-    signInButton.addEventListener('click', function () {
-      $('#signInModal').modal('show');
-    });
-    registerButton.addEventListener('click', function () {
-      $('#registerModal').modal('show');
-    });
-  }); // Load footer
+  var loadComponent = function loadComponent(path, placeholderId, scriptPath, callback) {
+    axios.get(path).then(function (response) {
+      console.log("".concat(path, " loaded"));
+      document.getElementById(placeholderId).innerHTML = response.data;
 
-  axios.get('components/footer/footer.html').then(function (response) {
-    document.getElementById('footer-placeholder').innerHTML = response.data;
-  }); // Load modals
+      if (scriptPath) {
+        loadScript(scriptPath, callback);
+      } else if (callback) {
+        callback();
+      }
+    });
+  };
 
-  axios.get('components/modals/signInModal/signInModal.html').then(function (response) {
-    document.getElementById('modals-placeholder').innerHTML += response.data;
-  });
-  axios.get('components/modals/registerModal/registerModal.html').then(function (response) {
-    document.getElementById('modals-placeholder').innerHTML += response.data;
+  var loadScript = function loadScript(src, callback) {
+    var script = document.createElement('script');
+    script.src = src;
+
+    script.onload = function () {
+      console.log("".concat(src, " loaded"));
+      if (callback) callback();
+    };
+
+    document.body.appendChild(script);
+  };
+
+  loadComponent('components/header/header.html', 'header-placeholder', 'components/header/header.js');
+  loadComponent('components/footer/footer.html', 'footer-placeholder', 'components/footer/footer.js');
+  loadComponent('pages/homePage/homePage.html', 'app-placeholder', 'pages/homePage/homePage.js');
+  loadComponent('components/modals/signInModal/signInModal.html', 'modals-placeholder', null, function () {
+    var signInModalStyle = document.createElement('link');
+    signInModalStyle.rel = 'stylesheet';
+    signInModalStyle.href = 'components/modals/signInModal/signInModal.module.css';
+    document.head.appendChild(signInModalStyle);
+    loadScript('components/modals/signInModal/signInModal.js');
   });
 });

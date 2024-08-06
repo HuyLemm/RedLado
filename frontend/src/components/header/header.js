@@ -1,24 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Load header HTML
-  axios.get('components/header/header.html')
-    .then(response => {
-      document.getElementById('header-placeholder').innerHTML = response.data;
+  const observer = new MutationObserver(() => {
+    const signInButton = document.getElementById('sign-in-button');
+    const signInModal = document.getElementById('signInModal');
 
-      // Apply header CSS module
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'components/header/header.module.css';
-      document.head.appendChild(link);
-
-      const signInButton = document.getElementById('sign-in-button');
-      const registerButton = document.getElementById('register-button');
-
+    if (signInButton && signInModal) {
       signInButton.addEventListener('click', function() {
-        $('#signInModal').modal('show');
+        console.log('Sign In button clicked');
+        signInModal.style.display = 'flex';
+        document.getElementById("container").classList.remove("active"); // Reset to Sign In view
       });
+      observer.disconnect(); // Dừng quan sát sau khi các sự kiện đã được thiết lập
+      console.log('Header event listeners set up');
+    } else {
+      console.error('Sign In button or modal not found');
+    }
+  });
 
-      registerButton.addEventListener('click', function() {
-        $('#registerModal').modal('show');
-      });
-    });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  console.log('Header script loaded');
 });

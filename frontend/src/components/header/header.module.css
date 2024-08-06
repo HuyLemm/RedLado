@@ -2,51 +2,56 @@
   padding: 0 1rem;
 }
 
+/* Style for Trading Platform */
 .navbar-brand {
   font-weight: bold;
   margin-right: auto;
-  font-size: 1.2rem;  
+  font-size: 2.2rem !important;  
 }
 
-.navbar-nav .nav-link {
+/* Common style for nav items */
+.nav-link{
   color: #fff;
   margin-left: 15px;
-  
+  font-size: 1.2rem !important;  
 }
 
-.btn {
+/* Style for Sign In button */
+.btn-sign-in {
   margin-top: 5px;
   margin-left: 15px;
-  font-size: 1.2rem;  
-
+  font-size: 1.2rem !important;  
 }
+
 
 @media (max-width: 768px) {
   .navbar-brand {
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
   }
 
-  .btn {
+  .btn-sign-in, .btn-register {
     margin-left: 10px;
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
   }
 
-  .navbar-nav .nav-link {
-    margin-left: 10px;
+  .nav-link-item {
+    margin-left: 10px !important;
+    font-size: 0.7rem;
   }
 }
 
 @media (max-width: 576px) {
   .navbar-brand {
-    font-size: 1rem;
+    font-size: 1rem !important;
   }
 
-  .btn {
-    margin-left: 5px;
-    font-size: 0.8rem;
+  .btn-sign-in, .btn-register {
+    margin-left: 5px !important;
+    font-size: 0.7rem !important;
   }
 
-  .navbar-nav .nav-link {
-    margin-left: 5px;
+  .nav-link-item {
+    margin-left: 5px !important;
+    font-size: 0.5rem !important;
   }
 }
