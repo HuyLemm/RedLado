@@ -9,24 +9,58 @@
 </head>
 <body>
   <!-- Main Content -->
-  <main class="container text-center my-5">
-    <h1 class="display-4">Start Your Trading Today</h1>
-    <div class="d-flex justify-content-center my-4">
-      <button class="btn btn-danger mx-2 btn-buy">Buy</button>
-      <button class="btn btn-secondary mx-2 btn-sell">Sell</button>
-    </div>
-    <p class="lead my-4">--- OR ---</p>
-    <div class="search-group">
-      <div class="input-group-prepend">
-        <button class="btn search-hamburger" type="button">
-          <i class="fas fa-bars"></i> <!-- Hamburger icon -->
+  <main class="main-content">
+    <section class="container text-center my-5">
+      <h1 class="display-4">Start Your Trading Today</h1>
+      <div class="d-flex justify-content-center my-4">
+        <button class="btnn btn-danger btn-buy">Buy</button>
+        <button class="btnn btn-light-purple btn-sell">Sell</button>
+      </div>
+      <p class="lead-my-4">--- OR ---</p>
+      <div class="search-group">
+        <div class="input-group-prepend">
+          <button class="btn search-hamburger" type="button">
+            <i class="fas fa-bars"></i> <!-- Hamburger icon -->
+          </button>
+        </div>
+        <input type="text" class="form-control search-input" placeholder="Search your Game" aria-label="Search your Game">
+        <button class="btn search-button" type="button">
+          <i class="fas fa-search"></i> <!-- Search icon -->
         </button>
       </div>
-      <input type="text" class="form-control search-input" placeholder="Search your Game" aria-label="Search your Game">
-      <button class="btn search-button" type="button">
-        <i class="fas fa-search"></i> <!-- Search icon -->
-      </button>
-    </div>
+    </section>
   </main>
+
+  <!-- Trending Games Section -->
+  <section class="trending-games">
+    <h2>Games on Trending</h2>
+    <div class="games-container">
+      <div class="game-card one"></div>
+      <div class="game-card two"></div>
+      <div class="game-card three"></div>
+      <div class="game-card four"></div>
+      <div class="game-card five"></div>
+      <div class="game-card six"></div>
+      <div class="game-card seven"></div>
+    </div>
+  </section>
+
+  <!-- Exclusive Bundle Section -->
+  <section class="exclusive-bundle">
+    <h2>Exclusive Bundle</h2>
+    <div class="bundle-container">
+      <div class="bundle-item-1"></div>
+      <div class="bundle-item-2"></div>
+    </div>
+    <p class="price">For only <span class="price-value">99.9$</span></p>
+  </section>
+
+  <!-- News Section -->
+  <section class="news">
+    <h2>News & Upcoming Releases</h2>
+    <div class="news-container">
+      <div class="news-item">1</div>
+    </div>
+  </section>
 </body>
 </html>

@@ -9,6 +9,12 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
+  opacity: 0; /* Start hidden */
+  transition: opacity 0.5s ease-in-out; /* Smooth fade-in/out */
+}
+
+.modal-container.show {
+  opacity: 1; /* Show modal */
 }
 
 .modal-content {
@@ -20,6 +26,7 @@
   width: 768px;
   max-width: 100%;
   min-height: 480px;
+  display: flex;
 }
 
 .close {
@@ -32,20 +39,20 @@
 }
 
 .modal-content p {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 20px;
   letter-spacing: 0.3px;
   margin: 20px 0;
 }
 
 .modal-content span {
-  font-size: 12px;
+  font-size: 15px;
   color: #a82d2d;
 }
 
 .modal-content a {
   color: #333;
-  font-size: 13px;
+  font-size: 15px;
   text-decoration: none;
   margin: 15px 0 10px;
 }
@@ -83,7 +90,7 @@
   border: none;
   margin: 8px 0;
   padding: 10px 15px;
-  font-size: 13px;
+  font-size: 15px;
   border-radius: 8px;
   width: 100%;
   outline: none;
@@ -100,6 +107,8 @@
   left: 0;
   width: 50%;
   z-index: 2;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .modal-content.active .sign-in {
@@ -111,6 +120,8 @@
   width: 50%;
   z-index: 1;
   opacity: 0;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .modal-content.active .sign-up {
@@ -160,6 +171,7 @@
   overflow: hidden;
   z-index: 1000;
   transition: all 0.6s ease-in-out;
+
 }
 
 .modal-content.active .toggle-container {
@@ -169,9 +181,9 @@
 .toggle {
   background-color: #a82d2d;
   height: 100%;
-  background: linear-gradient(to right, #c05c5c, #a82d2d);
+  background: linear-gradient(to right, #a82d2d, #a82d2d);
   color: #fff;
-  position: relative;
+  position: relative; 
   left: -100%;
   width: 200%;
   transform: translateX(0);
@@ -197,8 +209,10 @@
   transition: all 0.6s ease-in-out;
 }
 
+/* Add border-radius to inner edges */
 .toggle-left {
   transform: translateX(-200%);
+
 }
 
 .modal-content.active .toggle-left {
@@ -208,8 +222,13 @@
 .toggle-right {
   right: 0;
   transform: translateX(0);
+
 }
 
 .modal-content.active .toggle-right {
   transform: translateX(200%);
+}
+
+.toggle-right p {
+  font-size: 15px;
 }

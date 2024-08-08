@@ -1,80 +1,250 @@
 /* Styling for the main content area */
 main {
-    padding: 60px 0;
-  }
-  
-  /* Styling for the main heading */
-  main .display-4 {
-    font-size: 4rem; /* Adjust font size here */
-    font-weight: bold; /* Adjust font weight here */
-    color: #dc3545; /* Adjust color here */
-  }
-  
-  /* Styling for buttons (Buy and Sell) */
-  main .btn {
-    padding: 5px 25px; /* Adjust padding here */
-    font-size: 1.2rem; /* Adjust font size here */
-    border-radius: 20px; /* Adjust border radius here */
-  }
-  
-  /* Additional styling for the Buy button */
-  main .btn-buy {
-    background-color: #dc3545; /* Adjust background color here */
-    border-color: #dc3545; /* Adjust border color here */
-  }
-  
-  /* Additional styling for the Sell button */
-  main .btn-sell {
-    background-color: #6c757d; /* Adjust background color here */
-    border-color: #6c757d; /* Adjust border color here */
-  }
-  
-  /* Styling for the input group */
-  main .search-group {
-    max-width: 550px; /* Adjust maximum width here */
-    margin: auto; /* Center the input group */
-    display: flex;
-    align-items: center;
-    background-color: #f7f7f7; /* Adjust background color here */
-    border-radius: 20px; /* Adjust border radius here */
-    padding: 7px; /* Adjust padding here */
-  }
-  
-  /* Styling for the search input */
-  main .search-input {
-    flex: 1;
-    border: none;
-    background: none;
-    padding: 10px; /* Adjust padding here */
-    border-radius: 20px; /* Adjust border radius here */
-    border: 1px solid transparent;
-  }
-  
-  /* Styling for the hamburger button */
-  main .search-hamburger {
-    border: none;
-    background: none;
-    color: #6c757d; /* Adjust text color here */
-    margin-right: 10px;
-  }
-  
-  /* Styling for the search button */
-  main .search-button {
-    border: none;
-    background: none;
-    color: #6c757d; /* Adjust text color here */
-    margin-left: 10px;
-  }
-  
-  /* Add some hover effects */
-  main .search-hamburger:hover, main .search-button:hover {
-    background-color: #e9ecef; /* Adjust background color here */
-    border-radius: 50%; /* Make buttons circular on hover */
-  }
-  
-  /* Styling for the icon inside the buttons */
-  main .search-hamburger i, main .search-button i {
-    font-size: 1.2rem; /* Adjust icon size here */
-    color: #6c757d; /* Adjust icon color here */
-  }
-  
+  background-image: url('../../assets/backgroundHomepage.jpg');
+  background-size: cover;
+  height: 93vh; /* Full viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000; /* Adjust background color here */
+}
+
+/* Styling for the main heading */
+main .display-4 {
+  margin-top: -7rem;
+  font-size: 4rem; /* Adjust font size here */
+  font-weight: bold; /* Adjust font weight here */
+  color: #dc3545; /* Adjust color here */
+  margin-bottom: 3rem;
+}
+
+/* Styling for buttons (Buy and Sell) */
+main .btnn {
+  display: flex;
+  padding: 5px 30px; /* Adjust padding here */
+  font-size: 1.2rem; /* Adjust font size here */
+  border-radius: 20px; /* Adjust border radius here */
+}
+
+/* Additional styling for the Buy button */
+main .btn-buy {
+  background-color: #dc3545; /* Adjust background color here */
+  border-color: #dc3545; /* Adjust border color here */
+  margin-right: 3rem; /* Add this line */
+}
+
+/* Additional styling for the Sell button */
+main .btn-sell {
+  background-color: #6c757d; /* Adjust background color here */
+  border-color: #6c757d; /* Adjust border color here */
+}
+
+main .btn-light-purple {
+  background-color: #6a5acd; /* Light purple background color (approximate to image) */
+  border-color: #6a5acd; /* Light purple border color */
+  color: white; /* Text color */
+}
+
+.lead-my-4{
+  font-size: 1.7rem;
+  margin-top: 3.5rem;
+}
+
+/* Styling for the input group */
+main .search-group {
+  max-width: 550px; /* Adjust maximum width here */
+  margin: auto; /* Center the input group */
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7; /* Adjust background color here */
+  border-radius: 20px; /* Adjust border radius here */
+  padding: 15px; /* Adjust padding here */
+}
+
+/* Styling for the search input */
+main .search-input {
+  flex: 1;
+  border: none;
+  background: none;
+  padding: 10px; /* Adjust padding here */
+  border-radius: 20px; /* Adjust border radius here */
+  border: 1px solid transparent;
+}
+
+/* Styling for the hamburger button */
+main .search-hamburger {
+  border: none;
+  background: none;
+  color: #6c757d; /* Adjust text color here */
+  margin-right: 10px;
+}
+
+/* Styling for the search button */
+main .search-button {
+  border: none;
+  background: none;
+  color: #6c757d; /* Adjust text color here */
+  margin-left: 10px;
+}
+
+/* Add some hover effects */
+main .search-hamburger:hover, main .search-button:hover {
+  background-color: #e9ecef; /* Adjust background color here */
+  border-radius: 50%; /* Make buttons circular on hover */
+}
+
+/* Styling for the icon inside the buttons */
+main .search-hamburger i, main .search-button i {
+  font-size: 1.2rem; /* Adjust icon size here */
+  color: #6c757d; /* Adjust icon color here */
+}
+
+/* Trending Games Section */
+.trending-games {
+  padding: 40px 0;
+  background-color: #1e1e2f; /* Adjust background color here */
+  color: #fff; /* Adjust text color here */
+  text-align: left;
+}
+
+.trending-games h2 {
+  margin-top: -10px;
+  margin-left: 110px;
+  font-weight: bold;
+  font-size: 2.5rem; /* Adjust font size here */
+  margin-bottom: 30px;
+  color: #dc3545; /* Adjust heading color here */
+}
+
+.games-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 83px; /* Adjust gap between cards */
+}
+
+.game-card {
+  width: 170px; /* Adjust card width here */
+  height: 250px; /* Adjust card height here */
+  background-color: #f7f7f7; /* Adjust card background color here */
+  border-radius: 15px; /* Adjust border radius here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Adjust font size here */
+  color: #6c757d; /* Adjust text color here */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust box shadow here */
+}
+
+.one{
+  background-image: url('../../assets/pubg.jpg');
+  background-size: cover;
+}
+
+.two{
+  background-image: url('../../assets/csgo.jpg');
+  background-size: cover;
+}
+
+.three{
+  background-image: url('../../assets/lol.jpg');
+  background-size: cover;
+}
+
+.four{
+  background-image: url('../../assets/gta.jpg');
+  background-size: cover;
+}
+.five{
+  background-image: url('../../assets/overwatch.jpg');
+  background-size: cover;
+}
+.six{
+  background-image: url('../../assets/valorant.jpg');
+  background-size: cover;
+}
+.seven{
+  background-image: url('../../assets/clashofclan.jpg');
+  background-size: cover;
+}
+
+/* Exclusive Bundle Section */
+.exclusive-bundle {
+  padding: 40px 0;
+  background-color: #000; /* Adjust background color here */
+  color: #fff; /* Adjust text color here */
+  text-align: center;
+}
+
+.exclusive-bundle h2 {
+  font-size: 2.5rem; /* Adjust font size here */
+  margin-bottom: 50px;
+}
+
+.bundle-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Adjust gap between bundle items */
+}
+
+.bundle-item-1 {
+  background-image: url('../../assets/bundle1.jpg');
+  background-size: cover;
+  width: 450px; /* Adjust item width here */
+  height: 253px; /* Adjust item height here */
+  background-color: #f7f7f7; /* Adjust item background color here */
+  border-radius: 15px; /* Adjust border radius here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Adjust font size here */
+  color: #6c757d; /* Adjust text color here */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust box shadow here */
+}
+
+.bundle-item-2 {
+  background-image: url('../../assets/bundle2.jpg');
+  background-size: cover;
+  width: 253px; /* Adjust item width here */
+  height: 253px; /* Adjust item height here */
+  background-color: #f7f7f7; /* Adjust item background color here */
+  border-radius: 15px; /* Adjust border radius here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Adjust font size here */
+  color: #6c757d; /* Adjust text color here */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust box shadow here */
+}
+
+.exclusive-bundle .price {
+  font-size: 2rem; /* Adjust font size here */
+  margin-top: 30px;
+}
+
+.exclusive-bundle .price-value {
+  color: #dc3545; /* Adjust price value color here */
+}
+
+/* News Section */
+.news{
+  padding: 40px 0;
+  background-color: #1e1e2f; /* Adjust background color here */
+  color: #fff; /* Adjust text color here */
+  text-align: left;
+}
+
+.news h2 {
+  margin-left: 110px;
+  font-weight: bold;
+  font-size: 2.5rem; /* Adjust font size here */
+  margin-bottom: 20px;
+  color: #dc3545; /* Adjust heading color here */
+}
+
+.news-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 70px; /* Adjust gap between cards */
+}

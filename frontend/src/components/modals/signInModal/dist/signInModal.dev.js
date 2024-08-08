@@ -42,14 +42,20 @@ document.addEventListener('DOMContentLoaded', function () {
       if (closeModal) {
         closeModal.addEventListener('click', function () {
           console.log('Close button clicked');
-          signInModal.style.display = 'none';
+          signInModal.classList.remove('show');
+          setTimeout(function () {
+            signInModal.style.display = 'none';
+          }, 500); // Matches the animation duration in CSS
         });
       }
 
       window.addEventListener('click', function (event) {
         if (event.target === signInModal) {
           console.log('Clicked outside modal');
-          signInModal.style.display = 'none';
+          signInModal.classList.remove('show');
+          setTimeout(function () {
+            signInModal.style.display = 'none';
+          }, 500); // Matches the animation duration in CSS
         }
       });
       observer.disconnect(); // Dừng quan sát sau khi các sự kiện đã được thiết lập

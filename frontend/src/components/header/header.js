@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Sign In button clicked');
         signInModal.style.display = 'flex';
         document.getElementById("container").classList.remove("active"); // Reset to Sign In view
+        setTimeout(() => {
+          signInModal.classList.add('show');
+        }, 10); // Small delay to ensure the display change is recognized
       });
       observer.disconnect(); // Dừng quan sát sau khi các sự kiện đã được thiết lập
       console.log('Header event listeners set up');

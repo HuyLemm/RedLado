@@ -40,14 +40,20 @@ document.addEventListener('DOMContentLoaded', function() {
       if (closeModal) {
         closeModal.addEventListener('click', () => {
           console.log('Close button clicked');
-          signInModal.style.display = 'none';
+          signInModal.classList.remove('show');
+          setTimeout(() => {
+            signInModal.style.display = 'none';
+          }, 500); // Matches the animation duration in CSS
         });
       }
 
       window.addEventListener('click', (event) => {
         if (event.target === signInModal) {
           console.log('Clicked outside modal');
-          signInModal.style.display = 'none';
+          signInModal.classList.remove('show');
+          setTimeout(() => {
+            signInModal.style.display = 'none';
+          }, 500); // Matches the animation duration in CSS
         }
       });
 
