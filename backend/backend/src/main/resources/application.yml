@@ -1,18 +1,26 @@
 spring:
-  security:
     user:
       name: user
       password: password
     config:
       order: 2147483647
+    application:
+      name: RedLado
+      server:
+        port: 6969
+    autoconfigure:
+      exclude:
+        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+      
 
 security:
   basic:
     enabled: false
 
-http:
-  security:
-    basic:
-      enabled: false
-    csrf:
-      disabled: true
+  http:
+    security:
+      basic:
+        enabled: false
+      csrf:
+        disabled: true
