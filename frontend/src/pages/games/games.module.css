@@ -1,0 +1,92 @@
+/* General styles for the container */
+.container {
+    margin-top: 7vh;
+    display: flex;
+    height: 93vh;
+  }
+  
+  /* Styles for the sidebar */
+  .sidebar {
+    width: 20%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #6c757d;
+  }
+  
+  .sidebar-section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-section ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .sidebar-section ul li {
+    font-size: 14px;
+    color: #343a40;
+    margin-bottom: 8px;
+  }
+  
+  .sidebar-section input[type="text"] {
+    width: 45%;
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for the main content */
+  .main-content {
+    width: 80%;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
+  }
+  
+  .game-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .game-item {
+    display: flex;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .game-item img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+  }
+  
+  .game-info {
+    flex: 1;
+  }
+  
+  .game-info h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .game-info p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #6c757d;
+  }
+  

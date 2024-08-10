@@ -1,5 +1,6 @@
 /* Styling for the main content area */
 main {
+  margin-top: 7vh;
   background-image: url('../../assets/backgroundHomepage.jpg');
   background-size: cover;
   height: 93vh; /* Full viewport height */
@@ -247,4 +248,34 @@ main .search-hamburger i, main .search-button i {
   justify-content: center;
   flex-wrap: wrap;
   gap: 70px; /* Adjust gap between cards */
+}
+
+.news-item-1 {
+  background-image: url('../../assets/news1.jpg');
+  background-size: cover;
+  width: 1920px; /* Adjust card width here */
+  height: 250px;
+  background-color: #f7f7f7; /* Adjust item background color here */
+  border-radius: 15px; /* Adjust border radius here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Adjust font size here */
+  color: #6c757d; /* Adjust text color here */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust box shadow here */
+}
+
+.news-item-2 {
+  background-image: url('../../assets/news2.jpg');
+  background-size: cover;
+  width: 1920px; /* Adjust card width here */
+  height: 250px;
+  background-color: #f7f7f7; /* Adjust item background color here */
+  border-radius: 15px; /* Adjust border radius here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Adjust font size here */
+  color: #6c757d; /* Adjust text color here */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust box shadow here */
 }

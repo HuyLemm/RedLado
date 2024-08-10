@@ -1,5 +1,6 @@
 .modal-container {
-  display: none; /* Initially hide the modal */
+  visibility: hidden; /* Initially hidden */
+  opacity: 0; /* Start with full transparency */
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -9,12 +10,21 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  opacity: 0; /* Start hidden */
-  transition: opacity 0.5s ease-in-out; /* Smooth fade-in/out */
+  pointer-events: none; /* Prevent interaction when hidden */
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* Smooth fade-in/out */
 }
 
 .modal-container.show {
+  visibility: visible;
   opacity: 1; /* Show modal */
+  pointer-events: auto; /* Allow interaction when shown */
+  transition: opacity 0.5s ease-in-out, visibility 0s 0s; /* Reset visibility transition delay */
+}
+
+.modal-container.hide {
+  opacity: 0; /* Hide modal */
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* Hide after fade-out */
 }
 
 .modal-content {
@@ -27,6 +37,7 @@
   max-width: 100%;
   min-height: 480px;
   display: flex;
+  transition: all 0.5s ease-in-out; /* Optional: Add a transition for modal content */
 }
 
 .close {

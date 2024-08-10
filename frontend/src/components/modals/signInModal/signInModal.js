@@ -1,14 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
   const observer = new MutationObserver(() => {
     const container = document.getElementById("container");
+    const signInButton = document.getElementById("sign-in-button");
+    const signInModal = document.getElementById("signInModal");
     const closeModal = document.getElementById("close-modal");
     const registerbtn = document.getElementById("register");
     const loginbtn = document.getElementById("login");
     const signInLink = document.getElementById("sign-in");
     const signUpLink = document.getElementById("sign-up");
-    const signInModal = document.getElementById('signInModal');
 
     if (container && signInModal) {
+      signInButton.addEventListener('click', () => {
+        console.log('Sign In button clicked');
+        signInModal.classList.remove('hide');
+        signInModal.classList.add('show');
+      });
+
+      closeModal.addEventListener('click', () => {
+        console.log('Close button clicked');
+        signInModal.classList.remove('show');
+        signInModal.classList.add('hide');
+      });
+
+      window.addEventListener('click', (event) => {
+        if (event.target === signInModal) {
+          console.log('Clicked outside modal');
+          signInModal.classList.remove('show');
+          signInModal.classList.add('hide');
+        }
+      });
+
       if (registerbtn) {
         registerbtn.addEventListener("click", () => {
           console.log('Register button clicked');
@@ -37,27 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
 
-      if (closeModal) {
-        closeModal.addEventListener('click', () => {
-          console.log('Close button clicked');
-          signInModal.classList.remove('show');
-          setTimeout(() => {
-            signInModal.style.display = 'none';
-          }, 500); // Matches the animation duration in CSS
-        });
-      }
-
-      window.addEventListener('click', (event) => {
-        if (event.target === signInModal) {
-          console.log('Clicked outside modal');
-          signInModal.classList.remove('show');
-          setTimeout(() => {
-            signInModal.style.display = 'none';
-          }, 500); // Matches the animation duration in CSS
-        }
-      });
-
-      observer.disconnect(); // Dừng quan sát sau khi các sự kiện đã được thiết lập
+      observer.disconnect(); // Stop observing after event listeners are set
       console.log('Modal event listeners set up');
     } else {
       console.error('Modal container elements not found');
@@ -66,5 +67,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  console.log('SignInModal script loaded');
+  console.log('Observer set up for modal');
 });
