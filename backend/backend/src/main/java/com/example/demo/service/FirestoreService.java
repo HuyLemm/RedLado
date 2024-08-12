@@ -41,17 +41,9 @@ public class FirestoreService {
         result.get(); // Wait for the update to complete
         return "Document updated successfully";
     }
-
-    public void saveTransaction(String collection, String transactionHash, Map<String, Object> transactionData) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = firestore.collection(collection).document(transactionHash);
-        ApiFuture<WriteResult> result = docRef.set(transactionData);
+    public void addUser(Map<String, Object> userData) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = firestore.collection("users").document();
+        ApiFuture<WriteResult> result = docRef.set(userData);
         result.get(); // Wait for the save to complete
-    }
-
-    public Map<String, Object> getTransaction(String collection, String transactionId) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = firestore.collection(collection).document(transactionId);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-        DocumentSnapshot snapshot = future.get();
-        return snapshot.exists() ? snapshot.getData() : null;
     }
 }

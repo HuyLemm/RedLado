@@ -28,6 +28,7 @@ public class FirebaseConfig {
 
         return FirebaseApp.initializeApp(options);
     }
+    
     @Bean
     public Firestore firestore(FirebaseApp firebaseApp) {
         return FirestoreClient.getFirestore(firebaseApp);
