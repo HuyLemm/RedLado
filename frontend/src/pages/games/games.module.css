@@ -1,92 +1,143 @@
 /* General styles for the container */
 .container {
-    margin-top: 7vh;
-    display: flex;
-    height: 93vh;
-  }
-  
-  /* Styles for the sidebar */
-  .sidebar {
-    width: 20%;
-    background-color: #f8f9fa;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .sidebar p {
-    font-size: 14px;
-    margin-bottom: 20px;
-    color: #6c757d;
-  }
-  
-  .sidebar-section h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .sidebar-section ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .sidebar-section ul li {
-    font-size: 14px;
-    color: #343a40;
-    margin-bottom: 8px;
-  }
-  
-  .sidebar-section input[type="text"] {
-    width: 45%;
-    padding: 5px;
-    margin-right: 5px;
-    margin-bottom: 20px;
-  }
-  
-  /* Styles for the main content */
-  .main-content {
-    width: 80%;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #fff;
-  }
-  
-  .game-list {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .game-item {
-    display: flex;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .game-item img {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-  }
-  
-  .game-info {
-    flex: 1;
-  }
-  
-  .game-info h3 {
-    margin: 0;
-    font-size: 18px;
-  }
-  
-  .game-info p {
-    margin: 10px 0 0;
-    font-size: 14px;
-    color: #6c757d;
-  }
-  
+  margin-top: 7vh;
+  max-width: 1920px;
+  display: flex;
+  height: 93vh;
+}
+
+/* Styles for the sidebar */
+.sidebar {
+  width: 18%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sidebar p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #6c757d;
+  position: relative;
+}
+
+.sidebar-section h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: black;
+  font-weight: bold;
+  padding-bottom: 5px;
+  margin-top: 20px; /* Khoảng cách giữa các phần */
+}
+
+.sidebar-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sidebar-section ul li {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.sidebar-section ul li span {
+  margin-left: auto;
+  color: #6c757d;
+}
+
+.sidebar-section .price-range {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-section .price-range input {
+  width: 40%;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.sidebar-section .price-range span {
+  margin-right: 10px;
+  color: black;
+}
+
+
+.cross {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px; /* Increase height for a thicker line */
+  background-color: #ccc; /* Màu của đường kẻ */
+  bottom: 0;
+  left: 0;
+  margin-top: 10px;
+}
+
+/* Styles for checkboxes */
+.sidebar-section ul li label {
+  display: flex;
+  align-items: center;
+}
+
+.input-box{
+  width: 100%;
+  height: 40px;
+  margin-bottom: 15px;
+}
+.sidebar-section ul li label input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Styles for the main content */
+.main-content {
+  width: 82%;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.game-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-item {
+  display: flex;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-item img {
+  width: 250px;
+  height: 150px;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+.game-info {
+  flex: 1;
+}
+
+.game-info h3 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.game-info p {
+  margin: 10px 0 0;
+  font-size: 18px;
+}
