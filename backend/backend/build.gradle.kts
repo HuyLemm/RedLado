@@ -8,8 +8,9 @@ group = "Fanta2"
 version = "0.0.1-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)	
+	}
 }
 
 configurations {
@@ -34,8 +35,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.security:spring-security-config")
     implementation("org.springframework.security:spring-security-core")
-	implementation("org.web3j:core:5.0.0") // Core module
-    implementation("org.web3j:contracts:5.0.0") // Contracts module, if needed
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("javax.persistence:javax.persistence-api:2.2") // Thêm dòng này	
 
@@ -51,5 +50,3 @@ tasks.withType<Test> {
 	ignoreFailures = true
 
 }
-
-

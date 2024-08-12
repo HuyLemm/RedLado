@@ -7,7 +7,7 @@ spring:
     application:
       name: RedLado
       server:
-        port: 6969
+        port: 8080
     autoconfigure:
       exclude:
         - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

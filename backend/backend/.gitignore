@@ -37,13 +37,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### Hardhat ###
-# Environment files
-Private.env
 
-package.json
-hardhat.config.js
-/scripts/deploy.js
 
 
 
