@@ -24,6 +24,9 @@ repositories {
 }
 
 dependencies {
+	 // OAuth2 Client
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+
 	implementation("com.google.firebase:firebase-admin:9.0.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-web")
