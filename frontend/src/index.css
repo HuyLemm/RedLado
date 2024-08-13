@@ -1,0 +1,23 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+#header-placeholder, #footer-placeholder {
+  width: 100%;
+}
+
+#app-placeholder {
+  min-height: 100vh;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deals</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="pages/deals/deals.module.css">
+</head>
+<body>
+  <main>
+    <!-- Filter section -->
+    <div class="filter-section">
+      <h2>Game trên Steam</h2>
+      <div class="filter-group">
+        <div class="filter-item">
+          <label for="all">Danh mục:</label>
+          <select id="all" name="all">
+            <option value="all">Tất cả</option>
+          </select>
+        </div>
+    
+        <div class="filter-item">
+          <label for="category">Thể loại:</label>
+          <select id="category" name="category">
+            <option value="default">Tất cả</option>
+          </select>
+        </div>
+    
+        <div class="filter-item">
+          <label for="price">Mức giá:</label>
+          <div class="price-range">
+            <input type="text" id="price-from" placeholder="Mức giá từ">
+            <span>-</span>
+            <input type="text" id="price-to" placeholder="Mức giá đến">
+          </div>
+        </div>
+        
+    
+        <div class="filter-item">
+          <label for="sort">Sắp xếp:</label>
+          <select id="sort" name="sort">
+            <option value="default">Mặc định</option>
+          </select>
+        </div>
+    
+        <div class="filter-item">
+          <button id="filter" class="btn btn-primary">Lọc</button>
+        </div>
+      </div>
+      <a href="#" class="reset-filters">Khôi phục bộ lọc</a>
+    </div>    
+
+    <!-- Deals grid -->
+    <div class="deals-grid">
+      <div class="deal-item">
+        <div class="deal-image"></div>
+        <h3>Account 1</h3>
+        <p>Price: 9.99$</p>
+      </div>
+      <div class="deal-item">
+        <div class="deal-image"></div>
+        <h3>Account 2</h3>
+        <p>Price: 9.99$</p>
+      </div>
+      <!-- Add more deal items here -->
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <p>13 out of 50000 items</p>
+      <ul class="pagination-list">
+        <li><a href="#" class="page-link">1</a></li>
+        <li><a href="#" class="page-link">2</a></li>
+        <li><a href="#" class="page-link">3</a></li>
+        <li><a href="#" class="page-link">4</a></li>
+        <li><a href="#" class="page-link">Next</a></li>
+      </ul>
+    </div>
+  </main>
+  <script src="../../api/apiService.js"></script>
+  <script src="../../components/header/header.js"></script>
+  <script src="../../components/footer/footer.js"></script>
+  <script src="../deals/deals.js"></script>
+</body>
+</html>

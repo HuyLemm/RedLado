@@ -1,0 +1,125 @@
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+main {
+    max-width: 1920px;
+    height: 93vh;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+    background-color: white;
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .filter-section h2 {
+    font-size: 1.5rem;
+    color: black;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .filter-item label {
+    margin-bottom: 5px;
+    color: black;
+  }
+  
+  .filter-item input,
+  .filter-item select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+  }
+  
+  #filter {
+    margin-top: 25px;
+  }
+
+  .price-range {
+    display: flex;
+    align-items: center;
+  }
+  
+  .price-range input {
+    width: 100px;
+    margin: 0 5px;
+  }
+  
+  .price-range span {
+    margin: 0 5px;
+    font-weight: bold;
+    color: #000; /* Adjust this color as needed */
+  }
+  
+
+.deals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    background-color: #000;
+}
+
+.deal-item {
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.deal-item h3 {
+    font-size: 1.1rem;
+}
+
+.deal-item p {
+    color: #ccc;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-list {
+    display: flex;
+    list-style-type: none;
+    gap: 5px;
+}
+
+.page-link {
+    color: #fff;
+    background-color: #444;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.page-link:hover {
+    background-color: #666;
+}

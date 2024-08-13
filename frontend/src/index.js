@@ -1,71 +1,88 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+document.addEventListener('DOMContentLoaded', function() {
+  const loadComponent = (path, placeholderId, scriptPath, callback) => {
+    axios.get(path)
+      .then(response => {
+        console.log(`${path} loaded`);
+        document.getElementById(placeholderId).innerHTML = response.data;
+        if (scriptPath) {
+          loadScript(scriptPath, callback);
+        } else if (callback) {
+          callback();
+        }
+      })
+      .catch(error => {
+        console.error(`Error loading ${path}:`, error);
+      });
+  };
 
-document.addEventListener("DOMContentLoaded", function() {
-    const formContainer = document.getElementById('formContainer');
-    const loginLink = document.getElementById('loginLink');
-    const registerLink = document.getElementById('registerLink');
-  
-    const loginForm = `
-      <h2>Login</h2>
-      <form id="loginForm">
-        <div class="form-group">
-          <label>Email address</label>
-          <input type="email" class="form-control" id="loginEmail" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" class="form-control" id="loginPassword" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-      </form>
-    `;
-  
-    const registerForm = `
-      <h2>Register</h2>
-      <form id="registerForm">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" class="form-control" id="registerUsername" required>
-        </div>
-        <div class="form-group">
-          <label>Email address</label>
-          <input type="email" class="form-control" id="registerEmail" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" class="form-control" id="registerPassword" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-      </form>
-    `;
-  
-    loginLink.addEventListener('click', function() {
-      formContainer.innerHTML = loginForm;
-      const loginFormElement = document.getElementById('loginForm');
-      loginFormElement.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        console.log('Login:', email, password);
-        // Thực hiện yêu cầu đăng nhập ở đây
+  const loadScript = (src, callback) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => {
+      console.log(`${src} loaded`);
+      if (callback) callback();
+    };
+    document.body.appendChild(script);
+  };
+
+  const setupNavigation = () => {
+    const links = document.querySelectorAll('a[data-link]');
+    links.forEach(link => {
+      link.addEventListener('click', function(event) {
+        event.preventDefault(); 
+        const targetPage = link.getAttribute('data-link');
+        if (targetPage) {
+          loadPage(targetPage);
+        }
       });
     });
-  
-    registerLink.addEventListener('click', function() {
-      formContainer.innerHTML = registerForm;
-      const registerFormElement = document.getElementById('registerForm');
-      registerFormElement.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const username = document.getElementById('registerUsername').value;
-        const email = document.getElementById('registerEmail').value;
-        const password = document.getElementById('registerPassword').value;
-        console.log('Register:', username, email, password);
-        // Thực hiện yêu cầu đăng ký ở đây
-      });
-    });
-  
-    // Hiển thị form đăng nhập mặc định
-    loginLink.click();
+  };
+
+  const loadPage = (page) => {
+    let pagePath, scriptPath, urlPath;
+    
+    switch(page) {
+      case 'homepage':
+        pagePath = 'pages/homePage/homePage.html';
+        scriptPath = 'pages/homePage/homePage.js';
+        urlPath = '/';
+        break;
+      case 'games':
+        pagePath = 'pages/games/games.html';
+        scriptPath = 'pages/games/games.js';
+        urlPath = '/games';
+        break;
+      case 'deals':
+        pagePath = 'pages/deals/deals.html';
+        scriptPath = 'pages/deals/deals.js';
+        urlPath = '/deals';
+        break;
+      default:
+        pagePath = 'pages/homePage/homePage.html';
+        scriptPath = 'pages/homePage/homePage.js';
+        urlPath = '/';
+    }
+
+    window.history.pushState({page}, "", urlPath);
+    loadComponent(pagePath, 'app-placeholder', scriptPath);
+  };
+
+  window.addEventListener('popstate', (event) => {
+    if (event.state && event.state.page) {
+      loadPage(event.state.page);
+    } else {
+      loadPage('homepage');
+    }
   });
-  
+
+  loadComponent('components/header/header.html', 'header-placeholder', 'components/header/header.js', setupNavigation);
+  loadComponent('components/footer/footer.html', 'footer-placeholder', 'components/footer/footer.js');
+  loadComponent('components/modals/signInModal/signInModal.html', 'modals-placeholder', 'components/modals/signInModal/signInModal.js', () => {
+    const signInModalStyle = document.createElement('link');
+    signInModalStyle.rel = 'stylesheet';
+    signInModalStyle.href = 'components/modals/signInModal/signInModal.module.css';
+    document.head.appendChild(signInModalStyle);
+  });
+
+  loadPage(window.location.pathname.slice(1) || 'homepage');
+});
