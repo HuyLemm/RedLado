@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const links = document.querySelectorAll('a[data-link]');
     links.forEach(link => {
       link.addEventListener('click', function(event) {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+        event.preventDefault(); 
         const targetPage = link.getAttribute('data-link');
         if (targetPage) {
           loadPage(targetPage);
@@ -52,17 +52,18 @@ document.addEventListener('DOMContentLoaded', function() {
         scriptPath = 'pages/games/games.js';
         urlPath = '/games';
         break;
-      // Thêm các trang khác nếu có
+      case 'deals':
+        pagePath = 'pages/deals/deals.html';
+        scriptPath = 'pages/deals/deals.js';
+        urlPath = '/deals';
+        break;
       default:
         pagePath = 'pages/homePage/homePage.html';
         scriptPath = 'pages/homePage/homePage.js';
         urlPath = '/';
     }
 
-    // Thay đổi URL trong thanh địa chỉ
     window.history.pushState({page}, "", urlPath);
-
-    // Tải nội dung trang vào app-placeholder
     loadComponent(pagePath, 'app-placeholder', scriptPath);
   };
 
@@ -83,6 +84,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(signInModalStyle);
   });
 
-  // Tải trang mặc định là homepage khi trang được tải lần đầu
-  loadPage('homepage');
+  loadPage(window.location.pathname.slice(1) || 'homepage');
 });

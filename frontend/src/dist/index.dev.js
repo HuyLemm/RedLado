@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var links = document.querySelectorAll('a[data-link]');
     links.forEach(function (link) {
       link.addEventListener('click', function (event) {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
-
+        event.preventDefault();
         var targetPage = link.getAttribute('data-link');
 
         if (targetPage) {
@@ -58,19 +57,22 @@ document.addEventListener('DOMContentLoaded', function () {
         scriptPath = 'pages/games/games.js';
         urlPath = '/games';
         break;
-      // Thêm các trang khác nếu có
+
+      case 'deals':
+        pagePath = 'pages/deals/deals.html';
+        scriptPath = 'pages/deals/deals.js';
+        urlPath = '/deals';
+        break;
 
       default:
         pagePath = 'pages/homePage/homePage.html';
         scriptPath = 'pages/homePage/homePage.js';
         urlPath = '/';
-    } // Thay đổi URL trong thanh địa chỉ
-
+    }
 
     window.history.pushState({
       page: page
-    }, "", urlPath); // Tải nội dung trang vào app-placeholder
-
+    }, "", urlPath);
     loadComponent(pagePath, 'app-placeholder', scriptPath);
   };
 
@@ -88,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
     signInModalStyle.rel = 'stylesheet';
     signInModalStyle.href = 'components/modals/signInModal/signInModal.module.css';
     document.head.appendChild(signInModalStyle);
-  }); // Tải trang mặc định là homepage khi trang được tải lần đầu
-
-  loadPage('homepage');
+  });
+  loadPage(window.location.pathname.slice(1) || 'homepage');
 });
