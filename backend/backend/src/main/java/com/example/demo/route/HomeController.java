@@ -1,34 +1,48 @@
 package com.example.demo.route;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
-@RestController
+@Controller
 @RequestMapping("/")
 public class HomeController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    // Constructor injection for UserService
-    public HomeController(UserService userService) {
+    // Constructor injection for UserService and PasswordEncoder
+    @Autowired
+    public HomeController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
     public ResponseEntity<String> home() {
         return ResponseEntity.ok("Welcome to the Home Page!");
     }
-    
+
     @GetMapping("/login")
     public ResponseEntity<String> login() {
         return ResponseEntity.ok("Please login to access your account.");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        User user = userService.findByUsername(username).orElse(null);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            return ResponseEntity.badRequest().body("Invalid username or password");
+        }
+        return ResponseEntity.ok("Login successful");
     }
 
     @GetMapping("/register")
@@ -36,17 +50,27 @@ public class HomeController {
         return ResponseEntity.ok("Please register to create a new account.");
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<String> profile(Model model) {
-        // Lấy thông tin người dùng hiện tại từ SecurityContext
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Lấy tên người dùng từ Authentication
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setEmail(email);
+        userService.save(user);
+        return ResponseEntity.ok("Registration successful");
+    }
 
-        // Tìm người dùng từ cơ sở dữ liệu
+    @GetMapping("/profile")
+    public ResponseEntity<String> profile(@RequestParam(required = false) String username) {
+        if (username == null) {
+            return ResponseEntity.badRequest().body("Username is required");
+        }
+
         User user = userService.findByUsername(username).orElse(null);
 
-        // Thêm thông tin người dùng vào mô hình để hiển thị trên trang profile
-        model.addAttribute("user", user);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
 
         return ResponseEntity.ok("Profile Page for " + username);
     }

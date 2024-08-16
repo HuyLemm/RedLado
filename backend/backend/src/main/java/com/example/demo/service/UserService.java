@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
