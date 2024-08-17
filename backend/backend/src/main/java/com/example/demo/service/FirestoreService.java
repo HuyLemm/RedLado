@@ -2,14 +2,19 @@ package com.example.demo.service;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
 @Service
@@ -41,9 +46,21 @@ public class FirestoreService {
         result.get(); // Wait for the update to complete
         return "Document updated successfully";
     }
-    public void addUser(Map<String, Object> userData) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = firestore.collection("users").document();
-        ApiFuture<WriteResult> result = docRef.set(userData);
-        result.get(); // Wait for the save to complete
+
+    public boolean isUsernameOrEmailExists(String collection, String username, String email) throws ExecutionException, InterruptedException {
+        CollectionReference users = firestore.collection(collection);
+
+        // Create a query that checks if the username or email exists
+        Query query = users.whereEqualTo("username", username)
+                           .whereEqualTo("email", email);
+
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        return !documents.isEmpty();
+    }
+
+    public void addUser(Map<String, Object> data) throws ExecutionException, InterruptedException {
+        firestore.collection("accounts").add(data).get();
     }
 }

@@ -77,7 +77,7 @@ public class FirestoreController {
                     .body("Failed to update document");
         }
     }
-
+    @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest request) {
         try {
             // Validate input data
@@ -85,6 +85,14 @@ public class FirestoreController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .header(HttpHeaders.CONTENT_TYPE, "text/plain")
                         .body("Invalid input data");
+            }
+
+            // Check if username or email already exists
+            boolean userExists = firestoreService.isUsernameOrEmailExists("accounts", request.getUsername(), request.getEmail());
+            if (userExists) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                        .body("Username or email already exists");
             }
 
             // Create user data map
