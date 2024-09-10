@@ -1,3 +1,8 @@
+/*
+ * Cấu hình Firebase cho ứng dụng Spring Boot để kết nối với cơ sở dữ liệu Firestore của Firebase.
+ * Đảm bảo ứng dụng có thể sử dụng các chức năng của Firebase, đặc biệt là Firestore, để thực hiện các thao tác với cơ sở dữ liệu từ Google Cloud.
+ */
+
 package com.example.demo.config;
 
 import java.io.FileInputStream;
@@ -16,6 +21,8 @@ import com.google.firebase.cloud.FirestoreClient; // Đảm bảo import @Config
 @Configuration
 public class FirebaseConfig {
 
+    // Tạo và khởi tạo kết nối Firebase App bằng cách đọc file tài khoản dịch vụ JSON chứa thông tin xác thực và thiết lập ID của dự án Firebase (projectId).
+
     @Bean
     public FirebaseApp initializeFirebase() throws IOException {
         FileInputStream serviceAccount =
@@ -29,6 +36,7 @@ public class FirebaseConfig {
         return FirebaseApp.initializeApp(options);
     }
     
+    // Tạo một đối tượng Firestore từ Firebase App đã được khởi tạo để có thể tương tác với Firestore trong ứng dụng.
     @Bean
     public Firestore firestore(FirebaseApp firebaseApp) {
         return FirestoreClient.getFirestore(firebaseApp);

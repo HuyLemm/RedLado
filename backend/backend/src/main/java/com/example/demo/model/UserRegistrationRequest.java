@@ -1,3 +1,9 @@
+/* Dùng để chứa thông tin khi người dùng thực hiện đăng ký tài khoản.
+ * Các thuộc tính:
+ * username: Tên người dùng.
+ * email: Địa chỉ email của người dùng.
+ * password: Mật khẩu của người dùng.
+ */
 package com.example.demo.model;
 
 public class UserRegistrationRequest {

@@ -1,4 +1,12 @@
-package com.example.demo.route;
+// Controller điều khiển các route HTTP (GET và POST) cho trang chính, đăng nhập, đăng ký và trang hồ sơ người dùng. Nó kết nối với UserService để xử lý logic liên quan đến người dùng.
+/* home(): Xử lý yêu cầu GET đến trang chủ, trả về thông báo chào mừng.
+ * login() (GET): Trả về một thông báo yêu cầu người dùng đăng nhập.
+ * login() (POST): Xử lý yêu cầu đăng nhập, kiểm tra tên đăng nhập và mật khẩu.
+ * register() (GET): Trả về thông báo yêu cầu người dùng đăng ký tài khoản.
+ * register() (POST): Xử lý yêu cầu đăng ký tài khoản, tạo và lưu người dùng mới.
+ * profile(): Xử lý yêu cầu xem hồ sơ cá nhân của người dùng dựa trên tên đăng nhập.
+ */
+package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
