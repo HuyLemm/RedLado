@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import com.example.demo.model.UserRegistrationRequest;
 import com.example.demo.service.FirestoreService;
 
 @RestController
@@ -77,42 +76,4 @@ public class FirestoreController {
                     .body("Failed to update document");
         }
     }
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest request) {
-        try {
-            // Validate input data
-            if (request.getUsername() == null || request.getEmail() == null || request.getPassword() == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                        .body("Invalid input data");
-            }
-
-            // Check if username or email already exists
-            boolean userExists = firestoreService.isUsernameOrEmailExists("accounts", request.getUsername(), request.getEmail());
-            if (userExists) {
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                        .body("Username or email already exists");
-            }
-
-            // Create user data map
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("username", request.getUsername());
-            userData.put("email", request.getEmail());
-            userData.put("password", request.getPassword()); // Note: Password should be hashed in a real application
-
-            // Save user data to Firestore
-            firestoreService.addUser(userData);
-
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                    .body("User registered successfully");
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                    .body("Failed to register user");
-        }
-    }
-
 }
