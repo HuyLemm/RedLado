@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginbtn = document.getElementById("login");
     const signInLink = document.getElementById("sign-in");
     const signUpLink = document.getElementById("sign-up");
+    const closeOtpModal = document.getElementById("close-otp-modal");
 
     if (container && signInModal) {
       signInButton.addEventListener('click', () => {
@@ -30,31 +31,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      if (registerbtn) {
-        registerbtn.addEventListener("click", () => {
-          console.log('Register button clicked');
-          container.classList.add("active");
-        });
-      }
-
       if (loginbtn) {
         loginbtn.addEventListener("click", () => {
-          console.log('Login button clicked');
           container.classList.remove("active");
         });
       }
 
       if (signInLink) {
         signInLink.addEventListener("click", () => {
-          console.log('Sign In link clicked');
           container.classList.remove("active");
         });
       }
 
       if (signUpLink) {
         signUpLink.addEventListener("click", () => {
-          console.log('Sign Up link clicked');
           container.classList.add("active");
+        });
+      }
+
+      if (registerbtn) {
+        registerbtn.addEventListener("click", () => {
+          console.log('Sign Up button clicked');
+          container.classList.add("active");
+          otpModal.classList.add("show"); // Show the OTP modal
+        });
+      }
+    
+      if (closeOtpModal) {
+        closeOtpModal.addEventListener("click", () => {
+          otpModal.classList.remove("show"); // Hide the OTP modal on close
         });
       }
 

@@ -42,3 +42,9 @@ security:
         enabled: false
       csrf:
         disabled: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

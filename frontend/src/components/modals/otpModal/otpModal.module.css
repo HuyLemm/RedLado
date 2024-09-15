@@ -1,0 +1,79 @@
+.modal-container {
+    visibility: hidden;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+  }
+  
+  .modal-container.show {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    width: 300px;
+    max-width: 90%;
+    text-align: center;
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .otp-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .otp-input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .otp-input {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .otp-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .resend-otp {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .verify-btn {
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  

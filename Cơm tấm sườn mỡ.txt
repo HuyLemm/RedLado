@@ -1,63 +1,12 @@
-Sườn Redlado:
+1. Chức năng đăng ký: 
+Gồm email, username và password (theo thứ tự)
++ Email: kiểm tra xem email có thỏa không (có đuôi @gmail không, email có tồn tại trong hệ thống google không nếu có thể, có trùng trong db không)
++ Username: 5->12 (kiểm tra xem username có trùng không)
++ Password: 5->12 (bao gồm 1 chữ viết hoa)
+=> Khi thỏa hết điều kiện, send về email mã OTP. Cho nhập OTP để xác nhận cuối cùng tạo thành công và lưu dữ lieu vào db (có thể sử dung jwt và lưu hạn của mã tầm 30s thôi) và tự động chuyển đến trang home.
 
-1. Các route: 
-
-- Ấn vào logo ra homepage: 
-Bỏ 2 nút buy sell nhé
-  + Search box: Search theo tên game. 
-  + Games on trend content: Show ra các game shop đang bán, nếu nhiều games thì có thể chạy 6 hình scroll, 5s scroll tiếp trang sau
-  + Exclusive bundle content: Để 2 games thôi, nhưng làm to hơn games on trend
-  + New and Upcoming releases:Tương tự như exclusive, tùy fe làm css thôi nhé.
-  + Game accounts content: Show ra các game đang có bán acc, maximum 4 hình mỗi scroll, 5s 1 scroll để match với games on trending.
-     
-- Shop Games: 
-  + Header là Search-box: theo danh mục, thể loại, mức giá từ xxx - yyy, sắp xếp ( từ A-Z, increasing, decreasing, vv...), nút sort, nút khôi phục bộ lọc.
-  + Chia ra các route con:
-     a) Game trên Steam
-     b) Game trên Riot
-     c) vv. Tùy options tụi m muốn thêm gì vào nữa.
-     Các route con này show hình 16 games chia tỉ lệ 4-4. Bên dưới hình là tên games, dưới tên game là giá tiền.
-  + Footer là số trang, bên dưới số trang là banner quảng cáo.
-
-- Shop Accounts:
-  + Header là Search-box: theo danh mục, thể loại, mức giá từ xxx - yyy, sắp xếp ( từ A-Z, increasing, decreasing, vv...), nút sort, nút khôi phục bộ lọc.
-  + Nút Sell accounts dẫn đến route con sellaccount:
-      - Cho phép up 3-10 ảnh liên quan đến acc ( Yêu cầu có 1 trang thông tin acc như trắng mail, trắng sdt vv)
-      - Cho chọn các game mà shop có giao dịch acc
-      - Giá tiền
-      - Mô tả ( Viết vài dòng mô tả về thông tin acc)
-      - Dòng nhỏ tôi đã đồng ý với điều khoản sử dụng của Redlado để hyperlink, trong đó từ từ viết :))), nhớ có tickbox đằng trước nhá.
-      - Nút " Đăng bán" Sau khi ấn nút " Đăng bán" xong sẽ gửi về content như sai thông tin, chưa tickbox term and conditions,vv... nếu đủ hết thì báo " Tài khoản bạn sẽ được admin duyệt và đăng bài trong vòng 3-7 ngày, bạn vui lòng check mail để nhận thông báo mới nhất từ shop."
-
-  + Chia ra các route con theo tên game:
-     a) Fifa
-     b) Valorant,...
-
-  + Mỗi route con cứ show content như route shop games
-
-- Profile:
-  + Chỗ để up avatar, hình thẻ 5x5, chủ ảnh vui lòng ăn mặc chỉnh chu, hình nền trắng, chụp rõ ràng tóc không che lỗ tai. 
-  + username: Show ra nhưng không cho đổi
-  + Password: để ***, kế bên để nút đổi pass
-  + email: im***@gmail.com
-  Chia giúp t tỉ lệ 3-7, bên trái là 3 để avatar, bên phải là content như trên
-
-- Sign in:
-  + username box: Điền username
-  + Password box: Điền password
-  + Nút đăng nhập
-  + Nút " Bạn chưa có tài khoản, ấn để đăng ký" góc nhỏ bên phải ngay dưới password box
-  + Nút " Quên mật khẩu" Ngay dưới đăng ký
-  + Nút đăng nhập bằng google
-
-- Register:
-  + Username ( KHÔNG có khoảng trắng và kí tự đặc biệt như !@#)
-  + Password ( từ 8-24 kí tự a-z, trong đó có ít nhất 1 kí tự đặc biệt !,@,#, KHÔNG có khoảng trắng, ít nhất 1 số từ 0-9 và ít nhất 1 chữ cái viết in hoa)
-  + email ( chạy for xem có @ và . không để kiểm tra xem có hợp lệ không).
-  + Nút đăng ký
-  Báo về status như trùng username ( check với database, password sai điều kiện, email không hợp lệ,...)
-  Đúng thì báo " Đăng ký thành công" 
-
-
-
-
+2. Chức năng đăng nhập:
+Gồm username và password (theo thứ tự)
++ Username: 5->12 (kiểm tra xem username có trong db không)
++ Password: 5->12 (xem password đúng username không)
+=> Khi thỏa hết điều kiện, chuyển tới trang home.

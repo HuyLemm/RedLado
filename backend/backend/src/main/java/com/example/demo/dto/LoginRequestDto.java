@@ -3,6 +3,7 @@ package com.example.demo.dto;
 public class LoginRequestDto {
     private String email;
     private String password;
+    private String username;
 
     // Getters và Setters
     public String getEmail() {
@@ -11,6 +12,14 @@ public class LoginRequestDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
