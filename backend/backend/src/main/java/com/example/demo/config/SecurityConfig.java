@@ -8,6 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+// Định nghĩa cài đặt backend
 @Configuration
 public class SecurityConfig {
 
@@ -24,7 +25,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-
+    // hàm hash password
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -24,10 +24,16 @@ repositories {
 }
 
 dependencies {
-	 // OAuth2 Client
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-
+	//firebase
 	implementation("com.google.firebase:firebase-admin:9.0.0")
+
+	// JAXB API và runtime để hỗ trợ DatatypeConverter
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
+
+	// JWT
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.okta.spring:okta-spring-boot-starter:3.0.7")
@@ -42,13 +48,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("javax.persistence:javax.persistence-api:2.2") // Thêm dòng này		
 	implementation("javax.servlet:javax.servlet-api:4.0.1")
-
-	implementation("io.jsonwebtoken:jjwt:0.9.1")
-
-	// JAXB API và runtime để hỗ trợ DatatypeConverter
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
-
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	compileOnly("org.projectlombok:lombok")

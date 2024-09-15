@@ -7,10 +7,8 @@ import org.springframework.stereotype.Component;
 import com.example.demo.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 public class JwtTokenProvider {
 
     private String JWT_SECRET = "redlado23a1aredlado23a1aredlado23a1aredlado23a1a"; // Khóa bí mật để mã hóa token
