@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,14 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.LoginRequestDto;
 import com.example.demo.model.User;
 import com.example.demo.service.AuthService;
-import com.example.demo.service.EmailService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private EmailService emailService;
 
     @Autowired
     private AuthService authService;
@@ -38,15 +34,13 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOtp(
-            @RequestParam String email,
-            @RequestParam String otp) throws ExecutionException, InterruptedException {
+    @PostMapping("/confirm-otp")
+    public ResponseEntity<String> confirmOtp(@RequestParam String email, @RequestParam String otp, @RequestBody User user) {
         try {
-            String message = authService.verifyOtp(email, otp);
-            return ResponseEntity.ok(message);
+            String result = authService.confirmOtp(email, otp, user);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
     

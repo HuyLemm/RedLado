@@ -11,19 +11,12 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendOtpEmail(String toEmail, String subject, String body) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(toEmail);
-            message.setSubject(subject);
-            message.setText(body);
-            message.setFrom("gla1vesaigon@gmail.com");
-    
-            mailSender.send(message);
-            System.out.println("Email đã được gửi đến: " + toEmail);
-        } catch (Exception e) {
-            // Ghi log lỗi hoặc xử lý lỗi
-            System.out.println("Error sending email: " + e.getMessage());
-        }
+    // Gửi OTP qua email
+    public void sendOtpEmail(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
     }
-}       
+}

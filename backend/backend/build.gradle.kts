@@ -43,7 +43,9 @@ dependencies {
 	implementation("org.springframework.security:spring-security-config")
     implementation("org.springframework.security:spring-security-core")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation ("org.springframework.boot:spring-boot-starter-mail") //gửi mail nè
+
+	//Mail
+	implementation ("org.springframework.boot:spring-boot-starter-mail") 
 
 	//kotlin
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
