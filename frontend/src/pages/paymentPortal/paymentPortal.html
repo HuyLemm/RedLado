@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #cardForm {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container my-5">
+    <!-- Part 1: Payment Method Selection -->
+    <div id="paymentForm">
+      <h2 class="mb-4">Payment Methods</h2>
+      <div class="card p-4">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="creditCard" checked>
+          <label class="form-check-label" for="creditCard">
+            <img src="https://img.icons8.com/color/48/000000/visa.png"/> Credit or Debit Card
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+          <label class="form-check-label" for="paypal">
+            <img src="https://img.icons8.com/color/48/000000/paypal.png"/> PayPal
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="cashApp" value="cashApp">
+          <label class="form-check-label" for="cashApp">
+            <img src="https://img.icons8.com/color/48/000000/cash-app.png"/> Cash App
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="bitcoin" value="bitcoin">
+          <label class="form-check-label" for="bitcoin">
+            <img src="https://img.icons8.com/color/48/000000/bitcoin.png"/> Bitcoin
+          </label>
+        </div>
+        <button type="button" id="proceedButton" class="btn btn-primary mt-4">Proceed to Payment</button>
+      </div>
+    </div>
+
+    <!-- Part 2: Card Information Input -->
+    <div id="cardForm">
+      <h2 class="mb-4">Enter Card Information</h2>
+      <form>
+        <div class="card p-4">
+          <div class="mb-3">
+            <label for="cardNumber" class="form-label">Card Number</label>
+            <input type="text" class="form-control" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="expiryDate" class="form-label">Expiration Date</label>
+              <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+            </div>
+            <div class="col-md-6">
+              <label for="cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control" id="cvv" placeholder="123" required>
+            </div>
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="cardHolderName" class="form-label">Cardholder Name</label>
+            <input type="text" class="form-control" id="cardHolderName" placeholder="Full Name" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Confirm</button>
+          <button type="button" id="backButton" class="btn btn-secondary mt-3">Back</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript to toggle between forms
+    const paymentForm = document.getElementById('paymentForm');
+    const cardForm = document.getElementById('cardForm');
+    const proceedButton = document.getElementById('proceedButton');
+    const backButton = document.getElementById('backButton');
+
+    // Proceed button to move from payment method to card form
+    proceedButton.addEventListener('click', function() {
+      const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+      if (selectedPaymentMethod === 'creditCard') {
+        paymentForm.style.display = 'none';
+        cardForm.style.display = 'block';
+      } else {
+        alert('This example only supports Credit or Debit Card payments.');
+      }
+    });
+
+    // Back button to return to payment method selection
+    backButton.addEventListener('click', function() {
+      paymentForm.style.display = 'block';
+      cardForm.style.display = 'none';
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
