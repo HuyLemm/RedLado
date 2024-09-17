@@ -9,52 +9,54 @@ import org.springframework.stereotype.Service;
 @Service
 public class OtpService {
 
-    private static final long OTP_VALID_DURATION = 40; // Thời gian tồn tại của OTP (giây)
+    private static final long OTP_VALID_DURATION = 120; // Thời gian hết hạn liên kết (giây)
 
-    // Lưu trữ OTP cùng với thời gian hết hạn
+    // Lưu trữ OTP và thời gian tạo liên kết
     private final Map<String, OtpData> otpStorage = new HashMap<>();
 
-    // Lớp nội bộ để lưu OTP và thời gian hết hạn
+    // Lưu OTP và thời gian tạo liên kết vào bộ nhớ tạm thời
+    public void storeOtp(String email, String otp) {
+        otpStorage.put(email, new OtpData(otp, LocalDateTime.now()));
+    }
+
+    // Kiểm tra OTP
+    public boolean validateOtp(String email, String otp) {
+        OtpData otpData = otpStorage.get(email);
+        if (otpData != null && otpData.getOtp().equals(otp)) {
+            // Kiểm tra thời gian hết hạn
+            if (LocalDateTime.now().isBefore(otpData.getCreationTime().plusSeconds(OTP_VALID_DURATION))) {
+                otpStorage.remove(email); // Xóa OTP sau khi xác nhận thành công
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Kiểm tra thời gian hết hạn của liên kết
+    public boolean isLinkExpired(String email) {
+        OtpData otpData = otpStorage.get(email);
+        if (otpData != null) {
+            return LocalDateTime.now().isAfter(otpData.getCreationTime().plusSeconds(OTP_VALID_DURATION));
+        }
+        return true;
+    }
+
+    // Lớp dữ liệu OTP và thời gian tạo liên kết
     private static class OtpData {
         private final String otp;
-        private final LocalDateTime expireTime;
+        private final LocalDateTime creationTime;
 
-        public OtpData(String otp, LocalDateTime expireTime) {
+        public OtpData(String otp, LocalDateTime creationTime) {
             this.otp = otp;
-            this.expireTime = expireTime;
+            this.creationTime = creationTime;
         }
 
         public String getOtp() {
             return otp;
         }
 
-        public LocalDateTime getExpireTime() {
-            return expireTime;
+        public LocalDateTime getCreationTime() {
+            return creationTime;
         }
-    }
-
-    // Lưu OTP vào bộ nhớ tạm thời
-    public void storeOtp(String email, String otp) {
-        LocalDateTime expireTime = LocalDateTime.now().plusSeconds(OTP_VALID_DURATION);
-        otpStorage.put(email, new OtpData(otp, expireTime));
-    }
-
-    // Kiểm tra OTP
-    public boolean validateOtp(String email, String otp) {
-        OtpData otpData = otpStorage.get(email);
-
-        // Kiểm tra nếu không có OTP cho email này hoặc OTP đã hết hạn
-        if (otpData == null || LocalDateTime.now().isAfter(otpData.getExpireTime())) {
-            otpStorage.remove(email); // Xóa OTP đã hết hạn
-            return false; // OTP không hợp lệ hoặc đã hết hạn
-        }
-
-        // Kiểm tra OTP có đúng không
-        if (otpData.getOtp().equals(otp)) {
-            otpStorage.remove(email); // Xóa OTP sau khi xác nhận thành công
-            return true; // OTP hợp lệ
-        }
-
-        return false; // OTP không đúng
     }
 }

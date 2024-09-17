@@ -19,6 +19,9 @@ import com.google.cloud.firestore.QuerySnapshot;
 @Service
 public class AuthService {
 
+    private static final String COLLECTION_NAME = "accounts";
+    private static final String RESET_PASSWORD_URL = "localhost:6969/auth/reset-password"; // Đường dẫn để reset mật khẩu
+
     @Autowired
     private Firestore firestore;
 
@@ -29,145 +32,20 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private OtpService otpService;  // Sử dụng OtpService để lưu OTP tạm thời
+    private OtpService otpService; // Service để xử lý OTP
 
     @Autowired
-    private EmailService emailService;  // Gửi email OTP
+    private EmailService emailService; // Service gửi email
 
-    private static final String COLLECTION_NAME = "accounts";
+    @Autowired
+    private TokenService tokenService; // Service quản lý token
 
-     // Tạo mã OTP ngẫu nhiên
+    // Tạo mã OTP ngẫu nhiên
     private String generateOtp() {
         Random random = new Random();
-        int otp = 100000 + random.nextInt(900000); // Tạo mã OTP 6 chữ số
+        int otp = 100000 + random.nextInt(900000); // OTP 6 chữ số
         return String.valueOf(otp);
     }
-
-    // Hàm register 
-    public String register(User user) throws ExecutionException, InterruptedException {
-        // Kiểm tra trùng lặp email
-        if (!user.getEmail().contains("@")) {
-            throw new IllegalArgumentException("Email is invalid. It must contain '@'.");
-        }
-
-        QuerySnapshot emailQuerySnapshot = firestore.collection(COLLECTION_NAME)
-                .whereEqualTo("email", user.getEmail())
-                .get().get();
-        if (!emailQuerySnapshot.isEmpty()) {
-            throw new RuntimeException("Email existed.");
-        }
-
-        // Kiểm tra độ dài username
-        if (user.getUsername().length() < 5 || user.getUsername().length() > 12) {
-            throw new IllegalArgumentException("Username is invalid. Please enter a username within 5 to 12 characters.");
-        }
-
-        // Kiểm tra trùng lặp username
-        QuerySnapshot usernameQuerySnapshot = firestore.collection(COLLECTION_NAME)
-                .whereEqualTo("username", user.getUsername())
-                .get().get();
-        if (!usernameQuerySnapshot.isEmpty()) {
-            throw new RuntimeException("Username existed.");
-        }
-
-        // Kiểm tra mật khẩu
-        if (user.getPassword().length() < 5 || user.getPassword().length() > 12) {
-            throw new IllegalArgumentException("Password is invalid. Please enter a username within 5 to 12 characters.");
-        }
-        if (!user.getPassword().matches(".*[A-Z].*")) {
-            throw new IllegalArgumentException("Password must contain at least one uppercase letter.");
-        }
-
-        // Tạo document ID và gán cho đối tượng User
-        String documentId = firestore.collection(COLLECTION_NAME).document().getId();
-        user.setId(documentId);
-
-        String otp = generateOtp();
-
-        // Lưu OTP tạm thời vào OtpService
-        otpService.storeOtp(user.getEmail(), otp);
-
-        // Gửi OTP qua email
-        emailService.sendOtpEmail(user.getEmail(), "Your OTP Code", "Your OTP code is: " + otp);
-
-        // Tạm thời chưa lưu thông tin người dùng vào Firestore cho đến khi xác nhận OTP
-        return "Your OTP code has been sent to your email. Please check your email.";
-    }
-
-    // Xác nhận OTP và lưu thông tin người dùng vào Firestore sau khi xác nhận thành công
-    public String confirmOtp(String email, String otp, User user) throws ExecutionException, InterruptedException {
-        // Kiểm tra OTP qua OtpService
-        if (!otpService.validateOtp(email, otp)) {
-            throw new IllegalArgumentException("Your OTP is invalid or expired.");
-        }
-
-        // Tạo document ID và gán cho đối tượng User
-        String documentId = firestore.collection(COLLECTION_NAME).document().getId();
-        user.setId(documentId);
-
-        // Lưu thông tin người dùng vào Firestore sau khi xác nhận OTP thành công
-        Map<String, Object> docData = new HashMap<>();
-        docData.put("id", user.getId());
-        docData.put("email", user.getEmail());
-        docData.put("username", user.getUsername());
-        docData.put("password", passwordEncoder.encode(user.getPassword())); // Mã hóa mật khẩu
-
-        firestore.collection(COLLECTION_NAME).document(user.getId()).set(docData).get();
-
-        return "Verified successfully! Your account has been created.";
-    }
-
-    // Hàm reset mật khẩu qua email và gửi OTP
-    public String forgotPassword(String email) throws ExecutionException, InterruptedException {
-        User user = getUserByEmail(email); // Lấy thông tin người dùng bằng email
-
-        // Nếu người dùng không tồn tại, ném ra ngoại lệ
-        if (user == null) {
-            throw new IllegalArgumentException("Email không tồn tại trong hệ thống.");
-        }
-
-        // Tạo mã OTP và lưu vào OtpService
-        String otp = generateOtp();
-        otpService.storeOtp(email, otp);
-
-        // Gửi OTP qua email
-        emailService.sendOtpEmail(email, "Reset Password OTP", "Your OTP code is: " + otp);
-
-        return "OTP đã được gửi tới email của bạn. Vui lòng kiểm tra email để xác nhận.";
-    }
-
-     // Xác nhận OTP và cập nhật mật khẩu mới
-     public String resetPassword(String email, String otp, String newPassword) throws ExecutionException, InterruptedException {
-        if (!otpService.validateOtp(email, otp)) {
-            throw new IllegalArgumentException("Invalid or expired OTP.");
-        }
-
-        if (newPassword.length() < 5 || newPassword.length() > 12) {
-            throw new IllegalArgumentException("Password must be between 5 and 12 characters.");
-        }
-
-        if (!newPassword.matches(".*[A-Z].*")) {
-            throw new IllegalArgumentException("Password must contain at least one uppercase letter.");
-        }
-
-        User user = getUserByEmail(email);
-        // So sánh mật khẩu mới với mật khẩu cũ
-        if (passwordEncoder.matches(newPassword, user.getPassword())) {
-            throw new IllegalArgumentException("New password must be different from the old password.");
-        }
-
-        user.setPassword(passwordEncoder.encode(newPassword));
-
-        // Cập nhật thông tin người dùng với mật khẩu mới
-        Map<String, Object> updatedData = new HashMap<>();
-        updatedData.put("password", user.getPassword());
-
-        firestore.collection(COLLECTION_NAME).document(user.getId()).update(updatedData).get();
-
-        return "Password has been reset successfully.";
-    }
-    
-
 
     // Hàm login kiểm tra thông tin đăng nhập và tạo JWT
     public String login(LoginRequestDto loginRequest) throws ExecutionException, InterruptedException {
@@ -189,10 +67,118 @@ public class AuthService {
         return jwtTokenProvider.generateToken(user);
     }
 
-     // Lấy user theo email
-     private User getUserByEmail(String email) throws ExecutionException, InterruptedException {
-        QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
-                .whereEqualTo("email", email).get().get();
+
+    // Đăng ký tài khoản
+    public String register(User user) throws ExecutionException, InterruptedException {
+        validateUserDetails(user);
+
+        // Tạo mã OTP và lưu trong OtpService
+        String otp = generateOtp();
+        otpService.storeOtp(user.getEmail(), otp);
+
+        // Gửi OTP qua email
+        emailService.sendOtpEmail(user.getEmail(), "Your OTP Code", "Your OTP code is: " + otp);
+
+        // Tạm thời chưa lưu thông tin vào Firestore cho đến khi xác nhận OTP
+        return "Your OTP code has been sent to your email. Please check your email.";
+    }
+
+    // Xác nhận OTP và tạo tài khoản sau khi xác nhận thành công
+    public String confirmOtp(String email, String otp, User user) throws ExecutionException, InterruptedException {
+        if (!otpService.validateOtp(email, otp)) {
+            throw new IllegalArgumentException("OTP is invalid or expired.");
+        }
+
+        // Tạo document và lưu thông tin người dùng vào Firestore
+        saveUserToFirestore(user);
+        return "Verified successfully! Your account has been created.";
+    }
+
+    // Gửi email quên mật khẩu
+    public String forgotPassword(String email) throws ExecutionException, InterruptedException {
+        User user = getUserByEmail(email);
+
+        // Tạo token reset mật khẩu và gửi liên kết qua email
+        String resetToken = tokenService.createResetToken(email, 120); // Token có hạn 120 giây
+        String resetPasswordLink = RESET_PASSWORD_URL + "?token=" + resetToken;
+
+        emailService.sendOtpEmail(email, "Reset Password", "Please use the following link to reset your password: " + resetPasswordLink);
+        return "A link to reset your password has been sent to your email.";
+    }
+
+    // Đặt lại mật khẩu
+    public String resetPassword(String token, String newPassword) throws ExecutionException, InterruptedException {
+        String email = tokenService.verifyResetToken(token);
+
+        if (email == null) {
+            throw new IllegalArgumentException("Reset password link has expired or is invalid.");
+        }
+
+        validatePassword(newPassword);
+
+        User user = getUserByEmail(email);
+
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new IllegalArgumentException("New password cannot be the same as the old password.");
+        }
+
+        // Cập nhật mật khẩu mới
+        Map<String, Object> updatedData = new HashMap<>();
+        updatedData.put("password", passwordEncoder.encode(newPassword));
+
+        firestore.collection(COLLECTION_NAME).document(user.getId()).update(updatedData).get();
+        return "Password has been reset successfully.";
+    }
+
+    // Kiểm tra tính hợp lệ của chi tiết người dùng (email và username)
+    private void validateUserDetails(User user) throws ExecutionException, InterruptedException {
+        // Kiểm tra email hợp lệ
+        if (!user.getEmail().contains("@")) {
+            throw new IllegalArgumentException("Email is invalid. It must contain '@'.");
+        }
+
+        if (isFieldExists("email", user.getEmail())) {
+            throw new RuntimeException("Email existed.");
+        }
+
+        // Kiểm tra độ dài username
+        if (user.getUsername().length() < 5 || user.getUsername().length() > 12) {
+            throw new IllegalArgumentException("Username is invalid. Please enter a username within 5 to 12 characters.");
+        }
+
+        if (isFieldExists("username", user.getUsername())) {
+            throw new RuntimeException("Username existed.");
+        }
+    }
+
+    // Kiểm tra mật khẩu hợp lệ
+    private void validatePassword(String password) {
+        if (password.length() < 5 || password.length() > 12) {
+            throw new IllegalArgumentException("Password must be between 5 and 12 characters.");
+        }
+
+        if (!password.matches(".*[A-Z].*")) {
+            throw new IllegalArgumentException("Password must contain at least one uppercase letter.");
+        }
+    }
+
+    // Lưu người dùng vào Firestore
+    private void saveUserToFirestore(User user) throws ExecutionException, InterruptedException {
+        String documentId = firestore.collection(COLLECTION_NAME).document().getId();
+        user.setId(documentId);
+
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("id", user.getId());
+        docData.put("email", user.getEmail());
+        docData.put("username", user.getUsername());
+        docData.put("password", passwordEncoder.encode(user.getPassword()));
+
+        firestore.collection(COLLECTION_NAME).document(user.getId()).set(docData).get();
+    }
+
+    // Lấy thông tin người dùng từ email
+    private User getUserByEmail(String email) throws ExecutionException, InterruptedException {
+        QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME).whereEqualTo("email", email).get().get();
 
         if (querySnapshot.isEmpty()) {
             throw new RuntimeException("Email not found.");
@@ -200,5 +186,11 @@ public class AuthService {
 
         QueryDocumentSnapshot document = querySnapshot.getDocuments().get(0);
         return document.toObject(User.class);
+    }
+
+    // Kiểm tra trường hợp đã tồn tại
+    private boolean isFieldExists(String fieldName, String fieldValue) throws ExecutionException, InterruptedException {
+        QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME).whereEqualTo(fieldName, fieldValue).get().get();
+        return !querySnapshot.isEmpty();
     }
 }
