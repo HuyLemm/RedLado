@@ -17,7 +17,7 @@ public class SecurityConfig {
         http
             .csrf().disable()
             .authorizeHttpRequests()
-            .requestMatchers("/auth/login", "/auth/register", "/auth/confirm-otp", "/error").permitAll()  // Cho phép truy cập /error mà không cần xác thực
+            .requestMatchers("/auth/login", "/auth/register", "/auth/confirm-otp", "/error", "/auth/forget-password", "/auth/reset-password").permitAll()  // Cho phép truy cập /error mà không cần xác thực
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

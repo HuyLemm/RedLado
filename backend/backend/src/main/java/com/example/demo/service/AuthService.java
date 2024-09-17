@@ -117,6 +117,58 @@ public class AuthService {
         return "Verified successfully! Your account has been created.";
     }
 
+    // Hàm reset mật khẩu qua email và gửi OTP
+    public String forgotPassword(String email) throws ExecutionException, InterruptedException {
+        User user = getUserByEmail(email); // Lấy thông tin người dùng bằng email
+
+        // Nếu người dùng không tồn tại, ném ra ngoại lệ
+        if (user == null) {
+            throw new IllegalArgumentException("Email không tồn tại trong hệ thống.");
+        }
+
+        // Tạo mã OTP và lưu vào OtpService
+        String otp = generateOtp();
+        otpService.storeOtp(email, otp);
+
+        // Gửi OTP qua email
+        emailService.sendOtpEmail(email, "Reset Password OTP", "Your OTP code is: " + otp);
+
+        return "OTP đã được gửi tới email của bạn. Vui lòng kiểm tra email để xác nhận.";
+    }
+
+     // Xác nhận OTP và cập nhật mật khẩu mới
+     public String resetPassword(String email, String otp, String newPassword) throws ExecutionException, InterruptedException {
+        if (!otpService.validateOtp(email, otp)) {
+            throw new IllegalArgumentException("Invalid or expired OTP.");
+        }
+
+        if (newPassword.length() < 5 || newPassword.length() > 12) {
+            throw new IllegalArgumentException("Password must be between 5 and 12 characters.");
+        }
+
+        if (!newPassword.matches(".*[A-Z].*")) {
+            throw new IllegalArgumentException("Password must contain at least one uppercase letter.");
+        }
+
+        User user = getUserByEmail(email);
+        // So sánh mật khẩu mới với mật khẩu cũ
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new IllegalArgumentException("New password must be different from the old password.");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        // Cập nhật thông tin người dùng với mật khẩu mới
+        Map<String, Object> updatedData = new HashMap<>();
+        updatedData.put("password", user.getPassword());
+
+        firestore.collection(COLLECTION_NAME).document(user.getId()).update(updatedData).get();
+
+        return "Password has been reset successfully.";
+    }
+    
+
+
     // Hàm login kiểm tra thông tin đăng nhập và tạo JWT
     public String login(LoginRequestDto loginRequest) throws ExecutionException, InterruptedException {
         QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
@@ -135,5 +187,18 @@ public class AuthService {
         }
 
         return jwtTokenProvider.generateToken(user);
+    }
+
+     // Lấy user theo email
+     private User getUserByEmail(String email) throws ExecutionException, InterruptedException {
+        QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
+                .whereEqualTo("email", email).get().get();
+
+        if (querySnapshot.isEmpty()) {
+            throw new RuntimeException("Email not found.");
+        }
+
+        QueryDocumentSnapshot document = querySnapshot.getDocuments().get(0);
+        return document.toObject(User.class);
     }
 }
