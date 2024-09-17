@@ -1,15 +1,15 @@
-package com.example.demo.service;
+package com.example.demo.util;
+
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
+@Component
+public class OTP {
 
-@Service
-public class OtpService {
-
-    private static final long OTP_VALID_DURATION = 120; // Thời gian hết hạn liên kết (giây)
+    private static final long OTP_VALID_DURATION = 180; // Thời gian hết hạn liên kết (giây)
 
     // Lưu trữ OTP và thời gian tạo liên kết
     private final Map<String, OtpData> otpStorage = new HashMap<>();

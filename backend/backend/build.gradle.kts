@@ -31,7 +31,7 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1") 
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
 
-	// JWT
+	// Json web token
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 
 	//Springboot

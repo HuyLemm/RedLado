@@ -35,6 +35,20 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/confirm-otp")
+    public ResponseEntity<String> confirmOTP(@RequestBody User user, @RequestParam("otp") String otp) {
+        try {
+            String result = authService.confirmOtp(user, otp);
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();  // Log ngoại lệ để debug
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please try again later.");
+        }
+    }
+
+
     @PostMapping("/reset-password") 
     public ResponseEntity<String> resetPassword(@RequestParam("token") String token, @RequestParam("newPassword") String newPassword) {
         try {
@@ -43,22 +57,26 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage()); // Invalid token or password error
         } catch (Exception e) {
+            e.printStackTrace();  // Log ngoại lệ để debug
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please try again later.");
         }
     }
 
     // Quên mật khẩu - gửi OTP qua email
-    @PostMapping("/forget-password")
-    public ResponseEntity<String> forgetPassword(@RequestParam("email") String email) {
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody String email) {
         try {
             String result = authService.forgotPassword(email);
             return ResponseEntity.ok(result); // Reset password link sent to email
         } catch (IllegalArgumentException e) {
+            e.printStackTrace();  // Log ngoại lệ chi tiết
             return ResponseEntity.badRequest().body(e.getMessage()); // Email not found error
         } catch (Exception e) {
+            e.printStackTrace();  // Log ngoại lệ để debug
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please try again later.");
         }
     }
+
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequest) {

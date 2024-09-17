@@ -9,7 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JwtTokenProvider {
+public class JWT {
 
     private String JWT_SECRET = "redlado23a1aredlado23a1aredlado23a1aredlado23a1a"; // Khóa bí mật để mã hóa token
 

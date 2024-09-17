@@ -3,6 +3,7 @@ Gồm email, username và password (theo thứ tự)
 + Email: kiểm tra xem email có thỏa không (có đuôi @gmail không, email có tồn tại trong hệ thống google không nếu có thể, có trùng trong db không)
 + Username: 5->12 (kiểm tra xem username có trùng không)
 + Password: 5->12 (bao gồm 1 chữ viết hoa)
++ ConfirmPassword: (kiểm tra xem có trùng với pass ở trên không)
 => Khi thỏa hết điều kiện, send về email mã OTP. Cho nhập OTP để xác nhận cuối cùng tạo thành công và lưu dữ lieu vào db (có thể sử dung jwt và lưu hạn của mã tầm 30s thôi) và tự động chuyển đến trang home.
 
 2. Chức năng đăng nhập:
@@ -10,3 +11,14 @@ Gồm username và password (theo thứ tự)
 + Username: 5->12 (kiểm tra xem username có trong db không)
 + Password: 5->12 (xem password đúng username không)
 => Khi thỏa hết điều kiện, chuyển tới trang home.
+
+3. Chức năng quên mật khẩu:
+Gồm email, mã OTP (đặt 40s), 4 API Call
++ Email: kiểm tra xem email có thỏa không (có đuôi @gmail không, email có tồn tại trong hệ thống google không nếu có thể, có trùng trong db không)
+(1) Khi thỏa điều kiện, cho gửi mã OTP đến email để xác thực việc email này đang là chính chủ và muốn thực hiện chức năng lấy lại mật khẩu
+(2) Nhập xác thực mã OTP có đúng không, nếu đúng thì cho thay đổi mật khẩu
+(3) Nhập để thay đổi mật khẩu:
++ NewPassword: 5->12 (bao gồm 1 chữ viết hoa)
++ ConfirmNewPassword: (kiểm tra xem có trùng với pass ở trên không)
+(4) Ngoài ra, thêm chức năng resend lại mã OTP cho người dùng có thể gửi lại khi mã hết hạn
+
