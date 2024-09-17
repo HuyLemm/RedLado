@@ -5,13 +5,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import com.example.demo.model.User;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Component
 public class Function {
@@ -83,24 +84,16 @@ public class Function {
         firestore.collection(COLLECTION_NAME).document(user.getId()).set(docData).get();
     }
 
-    // Lấy thông tin người dùng từ email
-    public User getUserByEmail(String email) throws ExecutionException, InterruptedException {
-        try {
-            QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
-                    .whereEqualTo("email", email)
-                    .get().get();
-            
-            if (querySnapshot.isEmpty()) {
-                System.out.println("Email not found: " + email);
-                throw new RuntimeException("Email not found.");
-            }
-            
-            QueryDocumentSnapshot document = querySnapshot.getDocuments().get(0);
-            return document.toObject(User.class);
-        } catch (Exception e) {
-            e.printStackTrace();  // Log lỗi Firestore chi tiết
-            throw new RuntimeException("Firestore connection issue: " + e.getMessage());
+     // Lấy thông tin người dùng từ email
+     public User getUserByEmail(String email) throws ExecutionException, InterruptedException {
+        QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME).whereEqualTo("email", email).get().get();
+
+        if (querySnapshot.isEmpty()) {
+            throw new RuntimeException("Email not found.");
         }
+
+        QueryDocumentSnapshot document = querySnapshot.getDocuments().get(0);
+        return document.toObject(User.class);
     }
     
     

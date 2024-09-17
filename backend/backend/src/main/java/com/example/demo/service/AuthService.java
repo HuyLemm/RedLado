@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.LoginRequestDto;
 import com.example.demo.model.User;
-import com.example.demo.util.JWT;
-import com.example.demo.util.OTP;
 import com.example.demo.util.EmailToken;
 import com.example.demo.util.Function;
+import com.example.demo.util.JWT;
+import com.example.demo.util.OTP;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -90,9 +90,9 @@ public class AuthService {
     }
 
     // Gửi email quên mật khẩu
-    public String forgotPassword(String email) throws ExecutionException, InterruptedException {
-        function.validateEmail(email);
-        // User user = function.getUserByEmail(email);
+     // Gửi email quên mật khẩu
+     public String forgotPassword(String email) throws ExecutionException, InterruptedException {
+        User user = function.getUserByEmail(email);
 
         // Tạo token reset mật khẩu và gửi liên kết qua email
         String resetToken = emailTokenService.createResetToken(email, 120); // Token có hạn 120 giây

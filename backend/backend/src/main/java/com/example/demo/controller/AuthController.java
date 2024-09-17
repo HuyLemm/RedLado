@@ -64,7 +64,7 @@ public class AuthController {
 
     // Quên mật khẩu - gửi OTP qua email
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody String email) {
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
         try {
             String result = authService.forgotPassword(email);
             return ResponseEntity.ok(result); // Reset password link sent to email
