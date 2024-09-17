@@ -86,14 +86,22 @@ public class Function {
 
      // Lấy thông tin người dùng từ email
      public User getUserByEmail(String email) throws ExecutionException, InterruptedException {
-        QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME).whereEqualTo("email", email).get().get();
-
-        if (querySnapshot.isEmpty()) {
-            throw new RuntimeException("Email not found.");
+        try {
+            QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
+                    .whereEqualTo("email", email)
+                    .get().get();
+            
+            if (querySnapshot.isEmpty()) {
+                System.out.println("Email not found: " + email);
+                throw new RuntimeException("Email not found.");
+            }
+            
+            QueryDocumentSnapshot document = querySnapshot.getDocuments().get(0);
+            return document.toObject(User.class);
+        } catch (Exception e) {
+            e.printStackTrace();  // Log lỗi Firestore chi tiết
+            throw new RuntimeException("Firestore connection issue: " + e.getMessage());
         }
-
-        QueryDocumentSnapshot document = querySnapshot.getDocuments().get(0);
-        return document.toObject(User.class);
     }
     
     
