@@ -9,10 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.User;
-import com.example.demo.util.JWT;
-import com.example.demo.util.OTP;
 import com.example.demo.util.EmailToken;
 import com.example.demo.util.Function;
+import com.example.demo.util.JWT;
+import com.example.demo.util.OTP;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;

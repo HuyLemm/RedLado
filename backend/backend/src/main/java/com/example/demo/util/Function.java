@@ -5,13 +5,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import com.example.demo.model.User;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Component
 public class Function {
@@ -85,7 +86,6 @@ public class Function {
 
     // Lấy thông tin người dùng từ email
     public User getUserByEmail(String email) throws ExecutionException, InterruptedException {
-        email = email.replace("'", "");
         try {
             QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
                     .whereEqualTo("email", email)
