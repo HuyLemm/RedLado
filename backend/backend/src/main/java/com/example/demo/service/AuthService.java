@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.LoginRequestDto;
 import com.example.demo.model.User;
 import com.example.demo.util.JWT;
 import com.example.demo.util.OTP;
@@ -43,7 +42,7 @@ public class AuthService {
     private Function function; // Utility function class
 
     // Hàm login kiểm tra thông tin đăng nhập và tạo JWT
-    public String login(LoginRequestDto loginRequest) throws ExecutionException, InterruptedException {
+    public String login(User loginRequest) throws ExecutionException, InterruptedException {
         QuerySnapshot querySnapshot = firestore.collection(COLLECTION_NAME)
                 .whereEqualTo("username", loginRequest.getUsername())
                 .get().get();
@@ -92,7 +91,7 @@ public class AuthService {
     // Gửi email quên mật khẩu
     public String forgotPassword(String email) throws ExecutionException, InterruptedException {
         function.validateEmail(email);
-        // User user = function.getUserByEmail(email);
+        User user = function.getUserByEmail(email);
 
         // Tạo token reset mật khẩu và gửi liên kết qua email
         String resetToken = emailTokenService.createResetToken(email, 120); // Token có hạn 120 giây

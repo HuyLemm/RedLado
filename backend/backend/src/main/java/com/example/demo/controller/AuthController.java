@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.LoginRequestDto;
 import com.example.demo.model.User;
 import com.example.demo.service.AuthService;
 
@@ -43,7 +42,6 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();  // Log ngoại lệ để debug
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please try again later.");
         }
     }
@@ -53,33 +51,31 @@ public class AuthController {
     public ResponseEntity<String> resetPassword(@RequestParam("token") String token, @RequestParam("newPassword") String newPassword) {
         try {
             String result = authService.resetPassword(token, newPassword);
-            return ResponseEntity.ok(result); // Successful password reset response
+            return ResponseEntity.ok(result); 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage()); // Invalid token or password error
         } catch (Exception e) {
-            e.printStackTrace();  // Log ngoại lệ để debug
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please try again later.");
         }
     }
 
     // Quên mật khẩu - gửi OTP qua email
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody String email) {
+    public ResponseEntity<String> forgotPassword(@RequestBody User emailRequest) {
+        String email = emailRequest.getEmail();
         try {
             String result = authService.forgotPassword(email);
-            return ResponseEntity.ok(result); // Reset password link sent to email
+            return ResponseEntity.ok(result); 
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();  // Log ngoại lệ chi tiết
             return ResponseEntity.badRequest().body(e.getMessage()); // Email not found error
         } catch (Exception e) {
-            e.printStackTrace();  // Log ngoại lệ để debug
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please try again later.");
         }
     }
 
     
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequest) {
+    public ResponseEntity<String> login(@RequestBody User loginRequest) {
         try {
             String token = authService.login(loginRequest);
             return ResponseEntity.ok(token);
