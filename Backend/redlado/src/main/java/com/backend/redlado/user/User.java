@@ -12,9 +12,13 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    private String firebaseUid;
 
     @Column(unique = true, nullable = false)
     @NotBlank
@@ -45,16 +49,37 @@ public class User implements UserDetails {
         }
     }
 
+    public String getFirebaseUid() {
+        return firebaseUid;
+    }
+
+    public void setFirebaseUid(String firebaseUid) {
+        this.firebaseUid = firebaseUid;
+    }
+
     public Long getId() { return id; }
+
+    @Override
     public String getUsername() { return username; }
+
     public void setUsername(String username) { this.username = username; }
+
     public String getEmail() { return email; }
+
     public void setEmail(String email) { this.email = email; }
+
     @Override
     public String getPassword() { return password; }
+
     public void setPassword(String password) { this.password = password; }
+
     public Set<String> getRoles() { return roles; }
+
     public void setRoles(Set<String> roles) { this.roles = roles; }
+
+    public void setRoles(String... roles) {
+        this.roles = new HashSet<>(Arrays.asList(roles));
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -70,4 +95,3 @@ public class User implements UserDetails {
     @Override public boolean isCredentialsNonExpired() { return true; }
     @Override public boolean isEnabled() { return true; }
 }
-
