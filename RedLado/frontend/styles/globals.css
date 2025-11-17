@@ -1,0 +1,534 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  
+  /* ===== BASE TOKENS - Red Brand (không ngả tím) ===== */
+  --red-50: #FFF1F3;
+  --red-100: #FFE4E8;
+  --red-200: #FFC8D1;
+  --red-300: #FF9AAC;
+  --red-400: #FF6B84;
+  --red-500: #F43B55;  /* brand base - CTA & highlights */
+  --red-600: #E11D3A;  /* brand strong - logo, emphasis */
+  --red-700: #BE0F2C;
+  --red-800: #9A0C24;
+  --red-900: #7A0F1E;
+  
+  /* ===== BASE TOKENS - Neutral (xám ấm, hợp đỏ) ===== */
+  --neutral-50: #FFFFFF;
+  --neutral-100: #FAFAFB;
+  --neutral-200: #F3F4F6;
+  --neutral-300: #E5E7EB;
+  --neutral-400: #CBD5E1;
+  --neutral-500: #94A3B8;
+  --neutral-600: #64748B;
+  --neutral-700: #475569;
+  --neutral-800: #1F2937;
+  --neutral-900: #111418;
+  --neutral-950: #0B0D10;
+  
+  /* ===== BASE TOKENS - State Colors ===== */
+  --success-600: #16A34A;
+  --warning-600: #F59E0B;
+  --error-600: #DC2626;
+  --info-600: #2563EB;
+  
+  /* ===== SEMANTIC TOKENS - Light Mode ===== */
+  /* Backgrounds */
+  --bg-base: var(--neutral-50);
+  --bg-surface: var(--neutral-100);
+  --bg-elevated: var(--neutral-50);
+  --bg-subtle: var(--neutral-100);
+  --bg-hero-gradient-start: #FFF1F3;
+  --bg-hero-gradient-end: #FFFFFF;
+  
+  /* Brand */
+  --brand-primary: var(--red-600);
+  --brand-primary-soft: var(--red-100);
+  --brand-hover: var(--red-500);
+  --brand-pressed: var(--red-700);
+  
+  /* Text */
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-muted: var(--neutral-600);
+  --text-on-brand: var(--neutral-50);
+  
+  /* Borders */
+  --border-subtle: var(--neutral-200);
+  --border-strong: var(--neutral-300);
+  --border-focus: var(--red-400);
+  
+  /* CTA (Call to Action) */
+  --cta-bg: var(--red-600);
+  --cta-text: var(--neutral-50);
+  --cta-hover: var(--red-500);
+  --cta-pressed: var(--red-700);
+  
+  /* Badge */
+  --badge-bg: var(--red-100);
+  --badge-text: var(--red-600);
+  --badge-icon: var(--red-600);
+  
+  /* Overlay */
+  --overlay-scrim: rgba(0, 0, 0, 0.32);
+  
+  /* Shadows - Light Mode (không dùng blue tint) */
+  --shadow-sm: 0 1px 2px 0 rgba(17, 20, 24, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(17, 20, 24, 0.08), 0 2px 4px -1px rgba(17, 20, 24, 0.04);
+  --shadow-lg: 0 8px 24px rgba(17, 20, 24, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(17, 20, 24, 0.1), 0 10px 10px -5px rgba(17, 20, 24, 0.04);
+  
+  /* Disabled State */
+  --disabled-text: var(--neutral-500);
+  --disabled-bg: var(--neutral-200);
+  
+  /* ===== ShadCN Compatibility Tokens ===== */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-elevated);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-primary);
+  --primary-foreground: var(--text-on-brand);
+  --secondary: var(--bg-surface);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--brand-primary-soft);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--error-600);
+  --destructive-foreground: var(--text-on-brand);
+  --border: var(--border-subtle);
+  --input: var(--bg-elevated);
+  --ring: var(--border-focus);
+  
+  /* Legacy Support */
+  --stroke-muted: var(--border-subtle);
+  --stroke-strong: var(--border-strong);
+  --stroke-focus: var(--border-focus);
+  --bg-elev-1: var(--bg-elevated);
+  --bg-elev-2: var(--bg-surface);
+  --bg-elev-3: var(--border-subtle);
+  --red-primary: var(--brand-primary);
+  --red-hover: var(--brand-hover);
+  --red-pressed: var(--brand-pressed);
+  --red-light: var(--brand-primary-soft);
+  --red-focus: var(--border-focus);
+  --accent-red: var(--brand-primary);
+  --accent-green: var(--success-600);
+  --accent-yellow: var(--warning-600);
+  --accent-blue: var(--info-600);
+  --success: var(--success-600);
+  --warning: var(--warning-600);
+  --danger: var(--error-600);
+  
+  /* Spacing & Layout */
+  --radius: 1rem;
+  --radius-button: 0.75rem;
+  --radius-card: 1rem;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-normal: 400;
+  
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+}
+
+.dark {
+  /* ===== SEMANTIC TOKENS - Dark Mode ===== */
+  /* Backgrounds */
+  --bg-base: var(--neutral-950);
+  --bg-surface: var(--neutral-900);
+  --bg-elevated: var(--neutral-900);
+  --bg-subtle: var(--neutral-800);
+  --bg-hero-gradient-start: #0B0D10;
+  --bg-hero-gradient-end: #18080B; /* đỏ rất tối, tránh tím */
+  
+  /* Brand - nhạt hơn 1 bậc để tăng contrast trên nền tối */
+  --brand-primary: var(--red-500);
+  --brand-primary-soft: #2A0E12; /* mix red/800 + white 12% */
+  --brand-hover: var(--red-400);
+  --brand-pressed: var(--red-600);
+  
+  /* Text */
+  --text-primary: var(--neutral-50);
+  --text-secondary: var(--neutral-400);
+  --text-muted: var(--neutral-500);
+  --text-on-brand: var(--neutral-50);
+  
+  /* Borders */
+  --border-subtle: var(--neutral-800);
+  --border-strong: var(--neutral-700);
+  --border-focus: var(--red-400);
+  
+  /* CTA (Call to Action) */
+  --cta-bg: var(--red-500);
+  --cta-text: var(--neutral-50);
+  --cta-hover: var(--red-400);
+  --cta-pressed: var(--red-600);
+  
+  /* Badge */
+  --badge-bg: #2A0E12; /* mix red/800 + white 10% */
+  --badge-text: var(--red-300);
+  --badge-icon: var(--red-300);
+  
+  /* Overlay */
+  --overlay-scrim: rgba(0, 0, 0, 0.5);
+  
+  /* Shadows - Dark Mode + elevation overlay đỏ nhẹ */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -1px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.40);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.45), 0 10px 10px -5px rgba(0, 0, 0, 0.35);
+  
+  /* Elevation overlay - overlay đỏ rất nhẹ cho surface */
+  --elevation-overlay: linear-gradient(0deg, rgba(244, 59, 85, 0.04), rgba(244, 59, 85, 0.00));
+  
+  /* Disabled State */
+  --disabled-text: var(--neutral-500);
+  --disabled-bg: var(--neutral-800);
+  
+  /* ===== ShadCN Compatibility Tokens ===== */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-elevated);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-surface);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-primary);
+  --primary-foreground: var(--text-on-brand);
+  --secondary: var(--bg-surface);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--brand-primary-soft);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--error-600);
+  --destructive-foreground: var(--text-on-brand);
+  --border: var(--border-subtle);
+  --input: var(--bg-surface);
+  --ring: var(--border-focus);
+  
+  /* Legacy Support */
+  --stroke-muted: var(--border-subtle);
+  --stroke-strong: var(--border-strong);
+  --stroke-focus: var(--border-focus);
+  --bg-elev-1: var(--bg-elevated);
+  --bg-elev-2: var(--bg-surface);
+  --bg-elev-3: var(--border-subtle);
+  --red-primary: var(--brand-primary);
+  --red-hover: var(--brand-hover);
+  --red-pressed: var(--brand-pressed);
+  --red-light: var(--brand-primary-soft);
+  --red-focus: var(--border-focus);
+  --accent-red: var(--brand-primary);
+  --accent-green: var(--success-600);
+  --accent-yellow: var(--warning-600);
+  --accent-blue: var(--info-600);
+  --success: var(--success-600);
+  --warning: var(--warning-600);
+  --danger: var(--error-600);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Design system colors */
+  --color-bg-base: var(--bg-base);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-elev-1: var(--bg-elev-1);
+  --color-bg-elev-2: var(--bg-elev-2);
+  --color-stroke-muted: var(--stroke-muted);
+  --color-stroke-strong: var(--stroke-strong);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-hover: var(--brand-hover);
+  --color-cta-bg: var(--cta-bg);
+  --color-cta-text: var(--cta-text);
+  --color-accent-red: var(--accent-red);
+  --color-accent-yellow: var(--accent-yellow);
+  --color-accent-green: var(--accent-green);
+  
+  /* Base tokens available as utilities */
+  --color-red-50: var(--red-50);
+  --color-red-100: var(--red-100);
+  --color-red-200: var(--red-200);
+  --color-red-300: var(--red-300);
+  --color-red-400: var(--red-400);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+  --color-red-800: var(--red-800);
+  --color-red-900: var(--red-900);
+  
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+  
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro', sans-serif;
+  font-size: var(--font-size);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Scale - Design System */
+h1, .h1 {
+  font-size: clamp(48px, 5vw, 56px);
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+h2, .h2 {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+h3, .h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+h4, .h4 {
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+p, .body {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.caption {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ===== INTERACTION STATES ===== */
+
+/* Hover - sáng/tối ±6-8% so với màu nền */
+.hover-lift:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Focus - 2px ring red/400 + offset 2px (không dùng xanh) */
+*:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Disabled */
+.disabled,
+:disabled {
+  color: var(--disabled-text);
+  background-color: var(--disabled-bg);
+  border-color: transparent;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Text utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-on-brand {
+  color: var(--text-on-brand);
+}
+
+/* Shadow utilities */
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+/* Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* ===== COMPONENT-SPECIFIC STYLES ===== */
+
+/* Card with elevation in dark mode */
+.card-elevated {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+}
+
+.dark .card-elevated {
+  background: linear-gradient(0deg, rgba(244, 59, 85, 0.04), rgba(244, 59, 85, 0.00)), var(--bg-elevated);
+}
+
+/* Hero gradient backgrounds */
+.hero-gradient {
+  background: linear-gradient(135deg, var(--bg-hero-gradient-start), var(--bg-hero-gradient-end));
+}
+
+/* CTA Button styles */
+.btn-cta {
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-button);
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-cta:hover {
+  background: var(--cta-hover);
+  transform: translateY(-1px);
+}
+
+.btn-cta:active {
+  background: var(--cta-pressed);
+  transform: translateY(0);
+}
+
+/* Badge styles */
+.badge-brand {
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Overlay for images in dark mode (multiply overlay đỏ 8-12% để triệt tím) */
+.dark .image-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 59, 85, 0.08);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Header with backdrop blur */
+.header-blur {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dark .header-blur {
+  background: rgba(11, 13, 16, 0.6);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Selection color */
+::selection {
+  background: var(--brand-primary-soft);
+  color: var(--text-primary);
+}
