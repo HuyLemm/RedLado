@@ -298,7 +298,7 @@ export function Header() {
                 onClick={() => router.push("/login")}
               >
                 <User className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Sign in with Steam</span>
+                <span className="hidden sm:inline">Sign In</span>
                 <span className="sm:hidden">Sign in</span>
               </Button>
             )}
