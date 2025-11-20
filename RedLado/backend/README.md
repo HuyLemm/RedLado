@@ -1,18 +1,56 @@
-# Backend Structure - To be Implemented
+# RedLado Backend (Node + Express)
 
-This folder contains the backend structure placeholder for RedLado.
+This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes an `/api/auth/login` endpoint that validates user credentials against an in-memory data source.
 
-## Structure
+## Getting Started
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Environment variables:
+
+- `PORT` – server port (default `4000`)
+- `CLIENT_ORIGIN` – allowed CORS origin (default `*`)
+
+## Project Structure
+
 ```
 backend/
-├── src/
-│   ├── modules/       # Feature modules (auth, items, trades, etc.)
-│   ├── common/       # Shared utilities
-│   ├── database/     # Database entities and migrations
-│   └── config/       # Configuration files
+├── package.json
+├── tsconfig.json
+└── src
+    ├── app.ts
+    ├── server.ts
+    ├── config/
+    │   └── env.ts
+    ├── controllers/
+    │   └── auth/
+    │       └── loginController.ts
+    ├── middleware/
+    │   ├── error/
+    │   │   └── errorHandler.ts
+    │   └── validation/
+    │       └── validateRequest.ts
+    ├── models/
+    │   └── user.ts
+    ├── repositories/
+    │   └── userRepository.ts
+    ├── routes/
+    │   ├── auth/
+    │   │   └── auth.routes.ts
+    │   └── index.ts
+    ├── schemas/
+    │   └── authSchemas.ts
+    ├── seeders/
+    │   └── userSeeder.ts
+    ├── services/
+    │   └── auth/
+    │       └── authService.ts
+    └── utils/
+        └── password.ts
 ```
 
-## Future Implementation
-
-This will be implemented when backend development begins.
-
+> ⚠️ This is a scaffold meant to be replaced with real persistence and JWT handling when the dedicated backend is ready.
