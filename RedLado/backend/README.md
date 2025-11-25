@@ -1,6 +1,6 @@
 # RedLado Backend (Node + Express)
 
-This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes an `/api/auth/login` endpoint that validates user credentials against an in-memory data source.
+This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes `/api/auth/login` and `/api/auth/signup` endpoints backed by MongoDB (Atlas) via Mongoose.
 
 ## Getting Started
 
@@ -14,6 +14,7 @@ Environment variables:
 
 - `PORT` – server port (default `4000`)
 - `CLIENT_ORIGIN` – allowed CORS origin (default `*`)
+- `MONGODB_URI` – Mongo connection string (e.g. Atlas SRV URI)
 
 ## Project Structure
 
@@ -25,16 +26,19 @@ backend/
     ├── app.ts
     ├── server.ts
     ├── config/
+    │   ├── database.ts
     │   └── env.ts
     ├── controllers/
     │   └── auth/
-    │       └── loginController.ts
+    │       ├── loginController.ts
+    │       └── signupController.ts
     ├── middleware/
     │   ├── error/
     │   │   └── errorHandler.ts
     │   └── validation/
     │       └── validateRequest.ts
     ├── models/
+    │   ├── user.model.ts
     │   └── user.ts
     ├── repositories/
     │   └── userRepository.ts
@@ -50,7 +54,8 @@ backend/
     │   └── auth/
     │       └── authService.ts
     └── utils/
-        └── password.ts
+        ├── password.ts
+        └── token.ts
 ```
 
-> ⚠️ This is a scaffold meant to be replaced with real persistence and JWT handling when the dedicated backend is ready.
+> ⚠️ This scaffold now persists data in MongoDB but still returns mock JWT tokens; replace `utils/token.ts` with real JWT logic when ready.

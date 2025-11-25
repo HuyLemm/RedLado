@@ -1,22 +1,35 @@
-// API Client setup
-// This will be used when backend is ready
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    ...options,
+  });
+
+  const contentType = response.headers.get("content-type");
+  const responseBody = contentType?.includes("application/json")
+    ? await response.json()
+    : await response.text();
+
+  if (!response.ok) {
+    const message =
+      typeof responseBody === "string"
+        ? responseBody
+        : responseBody?.message || "Request failed";
+    throw new Error(message);
+  }
+
+  return responseBody as T;
+}
 
 export const apiClient = {
-  get: async (endpoint: string) => {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`);
-    return response.json();
-  },
-  post: async (endpoint: string, data: unknown) => {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  get: async <T>(endpoint: string) => request<T>(endpoint),
+  post: async <T>(endpoint: string, data?: unknown) =>
+    request<T>(endpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    return response.json();
-  },
+      body: data ? JSON.stringify(data) : undefined,
+    }),
 };
-

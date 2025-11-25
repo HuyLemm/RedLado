@@ -1,8 +1,12 @@
+export type UserRole = "buyer" | "seller" | "admin";
+
 export interface User {
   id: string;
   username: string;
   email: string;
-  avatar?: string;
+  name?: string;
+  role?: UserRole;
+  avatar?: string | null;
 }
 
 export interface LoginRequest {
@@ -19,5 +23,6 @@ export interface SignupRequest {
 export interface AuthResponse {
   user: User;
   token: string;
+  message?: string;
 }
 

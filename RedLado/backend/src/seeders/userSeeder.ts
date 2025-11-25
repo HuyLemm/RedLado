@@ -1,16 +1,22 @@
 import bcrypt from 'bcryptjs';
 
-import { User } from '../models/user';
+import { UserModel } from '../models/user.model';
 
-const seedPassword = bcrypt.hashSync('Password123!', 10);
+export const seedUsers = async () => {
+  const existingUser = await UserModel.findOne({ email: 'demo@redlado.com' }).exec();
 
-export const seedUsers: User[] = [
-  {
-    id: 'u1',
+  if (existingUser) {
+    return;
+  }
+
+  const passwordHash = await bcrypt.hash('Password123!', 10);
+
+  await UserModel.create({
     email: 'demo@redlado.com',
     name: 'Demo Trader',
-    passwordHash: seedPassword,
+    username: 'demotrader',
+    passwordHash,
     role: 'buyer',
-  },
-];
+  });
+};
 
