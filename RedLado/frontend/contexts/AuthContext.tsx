@@ -1,8 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { User } from "@/types/auth";
+import { ProfileUpdatePayload, User } from "@/types/auth";
 import * as authAPI from "@/lib/api/auth";
+import * as profileAPI from "@/lib/api/profile";
 
 interface AuthContextType {
   user: User | null;
@@ -11,6 +12,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   signup: (username: string, email: string, password: string) => Promise<void>;
+  updateProfile: (data: ProfileUpdatePayload) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -76,6 +78,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateProfile = async (data: ProfileUpdatePayload) => {
+    if (!user) {
+      throw new Error("Bạn cần đăng nhập trước");
+    }
+
+    try {
+      const response = await profileAPI.updateProfile(user.id, data);
+      setUser(response.user);
+      localStorage.setItem("user", JSON.stringify(response.user));
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -85,6 +101,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         signup,
+        updateProfile,
       }}
     >
       {children}

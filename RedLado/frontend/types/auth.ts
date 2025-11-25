@@ -7,6 +7,11 @@ export interface User {
   name?: string;
   role?: UserRole;
   avatar?: string | null;
+  bio?: string;
+  location?: string;
+  favoriteGenres?: string;
+  steamProfile?: string;
+  discordTag?: string;
 }
 
 export interface LoginRequest {
@@ -25,4 +30,8 @@ export interface AuthResponse {
   token: string;
   message?: string;
 }
+
+export type ProfileUpdatePayload = Partial<
+  Pick<User, "username" | "email" | "bio" | "location" | "favoriteGenres" | "steamProfile" | "discordTag" | "avatar">
+>;
 

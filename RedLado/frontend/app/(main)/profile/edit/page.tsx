@@ -11,18 +11,19 @@ import { Camera, Save, X, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { toast } from "sonner";
 
 export default function EditProfilePage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading, updateProfile } = useAuth();
   const [isUploading, setIsUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     bio: "Professional CS2 trader with 3+ years experience. Specialized in rare skins and high-tier items. Always fair prices and fast delivery.",
     location: "New York, USA",
-    website: "",
     favoriteGenres: "FPS, Strategy",
     steamProfile: "",
     discordTag: ""
@@ -35,7 +36,11 @@ export default function EditProfilePage() {
         ...prev,
         username: user.username || "",
         email: user.email || "",
-        steamProfile: user.username || ""
+        bio: user.bio || prev.bio,
+        location: user.location || prev.location,
+        favoriteGenres: user.favoriteGenres || prev.favoriteGenres,
+        steamProfile: user.steamProfile || user.username || "",
+        discordTag: user.discordTag || ""
       }));
     }
   }, [user]);
@@ -59,10 +64,32 @@ export default function EditProfilePage() {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    console.log("Saving profile:", formData);
-    router.push("/profile");
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const payload = Object.entries(formData).reduce((acc, [key, value]) => {
+        const trimmed = value.trim();
+        if (trimmed.length > 0) {
+          acc[key as keyof typeof formData] = trimmed;
+        }
+        return acc;
+      }, {} as typeof formData);
+
+      if (Object.keys(payload).length === 0) {
+        toast.error("Please fill in at least one field");
+        setIsSaving(false);
+        return;
+      }
+
+      await updateProfile(payload as Parameters<typeof updateProfile>[0]);
+      toast.success("Profile updated successfully");
+      router.push("/profile");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to update profile";
+      toast.error(message);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleImageUpload = () => {
@@ -204,30 +231,16 @@ export default function EditProfilePage() {
                   <p className="text-text-muted dark:text-[#8B93A7] text-sm">Brief description for your profile</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Location */}
-                  <div className="space-y-2">
-                    <Label htmlFor="location" className="text-text-primary dark:text-[#E5E7EB]">Location</Label>
-                    <Input
-                      id="location"
-                      value={formData.location}
-                      onChange={(e) => handleInputChange('location', e.target.value)}
-                      className="bg-bg-elev-2 dark:bg-[#1a1d1f] border-stroke-muted dark:border-[#1F2937] focus:border-[#E11D48] dark:focus:border-[#F43F5E]"
-                      placeholder="City, Country"
-                    />
-                  </div>
-
-                  {/* Website */}
-                  <div className="space-y-2">
-                    <Label htmlFor="website" className="text-text-primary dark:text-[#E5E7EB]">Website</Label>
-                    <Input
-                      id="website"
-                      value={formData.website}
-                      onChange={(e) => handleInputChange('website', e.target.value)}
-                      className="bg-bg-elev-2 dark:bg-[#1a1d1f] border-stroke-muted dark:border-[#1F2937] focus:border-[#E11D48] dark:focus:border-[#F43F5E]"
-                      placeholder="https://your-website.com"
-                    />
-                  </div>
+                {/* Location */}
+                <div className="space-y-2">
+                  <Label htmlFor="location" className="text-text-primary dark:text-[#E5E7EB]">Location</Label>
+                  <Input
+                    id="location"
+                    value={formData.location}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    className="bg-bg-elev-2 dark:bg-[#1a1d1f] border-stroke-muted dark:border-[#1F2937] focus:border-[#E11D48] dark:focus:border-[#F43F5E]"
+                    placeholder="City, Country"
+                  />
                 </div>
 
                 {/* Gaming Info */}
@@ -295,10 +308,11 @@ export default function EditProfilePage() {
               </Button>
               <Button 
                 onClick={handleSave}
-                className="bg-[#E11D48] dark:bg-[#F43F5E] hover:bg-[#BE123C] dark:hover:bg-[#E11D48] text-white font-medium"
+                disabled={isSaving}
+                className="bg-[#E11D48] dark:bg-[#F43F5E] hover:bg-[#BE123C] dark:hover:bg-[#E11D48] text-white font-medium disabled:opacity-60"
               >
                 <Save className="w-4 h-4 mr-2" />
-                Save Changes
+                {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </div>

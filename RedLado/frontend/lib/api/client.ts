@@ -32,4 +32,9 @@ export const apiClient = {
       method: "POST",
       body: data ? JSON.stringify(data) : undefined,
     }),
+  patch: async <T>(endpoint: string, data?: unknown) =>
+    request<T>(endpoint, {
+      method: "PATCH",
+      body: data ? JSON.stringify(data) : undefined,
+    }),
 };

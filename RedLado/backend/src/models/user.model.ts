@@ -8,6 +8,12 @@ export interface UserDocument extends Document {
   username: string;
   passwordHash: string;
   role: UserRole;
+  bio?: string;
+  location?: string;
+  favoriteGenres?: string;
+  steamProfile?: string;
+  discordTag?: string;
+  avatar?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,6 +29,12 @@ const userSchema = new Schema<UserDocument>(
       enum: ['buyer', 'seller', 'admin'],
       default: 'buyer',
     },
+    bio: { type: String, default: '' },
+    location: { type: String, default: '' },
+    favoriteGenres: { type: String, default: '' },
+    steamProfile: { type: String, default: '' },
+    discordTag: { type: String, default: '' },
+    avatar: { type: String, default: '' },
   },
   { timestamps: true },
 );

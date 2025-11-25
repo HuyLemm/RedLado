@@ -1,6 +1,6 @@
 # RedLado Backend (Node + Express)
 
-This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes `/api/auth/login` and `/api/auth/signup` endpoints backed by MongoDB (Atlas) via Mongoose.
+This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes `/api/auth/login`, `/api/auth/signup`, and `/api/profile/:id` (PATCH) endpoints backed by MongoDB (Atlas) via Mongoose.
 
 ## Getting Started
 
@@ -32,6 +32,8 @@ backend/
     │   └── auth/
     │       ├── loginController.ts
     │       └── signupController.ts
+    │   └── profile/
+    │       └── updateProfileController.ts
     ├── middleware/
     │   ├── error/
     │   │   └── errorHandler.ts
@@ -45,14 +47,19 @@ backend/
     ├── routes/
     │   ├── auth/
     │   │   └── auth.routes.ts
+    │   ├── profile/
+    │   │   └── profile.routes.ts
     │   └── index.ts
     ├── schemas/
-    │   └── authSchemas.ts
+    │   ├── authSchemas.ts
+    │   └── profileSchemas.ts
     ├── seeders/
     │   └── userSeeder.ts
     ├── services/
-    │   └── auth/
-    │       └── authService.ts
+    │   ├── auth/
+    │   │   └── authService.ts
+    │   └── profile/
+    │       └── profileService.ts
     └── utils/
         ├── password.ts
         └── token.ts

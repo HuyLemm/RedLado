@@ -9,6 +9,7 @@ This directory contains the API layer for the RedLado application. Authenticatio
 ```
 lib/api/
 ├── auth.ts          # Authentication API (login, signup, logout)
+├── profile.ts       # Profile operations (update profile)
 ├── client.ts        # Base API client (for future real backend)
 └── README.md        # This file
 ```
@@ -57,5 +58,6 @@ const createPost = async (data: CreatePostRequest) => {
 
 - Non-auth modules may still rely on mock implementations—migrate them gradually.
 - `getCurrentUser`/`logout` are placeholders until backend endpoints exist.
+- `profile.ts` currently exposes `updateProfile(userId, data)` which calls `PATCH /profile/:id`.
 - All API functions remain async and throw `Error` objects with backend messages for consistency.
 

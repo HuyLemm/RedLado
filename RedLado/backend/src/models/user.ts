@@ -7,5 +7,11 @@ export interface User {
   username: string;
   passwordHash: string;
   role: UserRole;
+  bio?: string;
+  location?: string;
+  favoriteGenres?: string;
+  steamProfile?: string;
+  discordTag?: string;
+  avatar?: string;
 }
 
