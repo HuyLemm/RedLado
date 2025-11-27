@@ -1,66 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, TrendingUp, Users, Hash, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
-import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { PageContainer } from "@/components/layout/PageContainer";
 import { motion } from "framer-motion";
-import { FadeIn } from "@/components/animations/FadeIn";
 import { StaggerContainer, StaggerItem } from "@/components/animations/StaggerContainer";
 import * as postsAPI from "@/lib/api/posts";
 import { Post as ApiPost } from "@/types/post";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 
-type DisplayPost = {
-  id: string;
-  author: {
-    name: string;
-    avatar?: string;
-    time: string;
-  };
-  content: string;
-  image?: string;
-  likes: number;
-  comments: number;
-  shares: number;
-  tags?: string[];
-};
+type DisplayPost = ApiPost;
 
 export default function CommunityPage() {
   const router = useRouter();
-  const [likedPosts, setLikedPosts] = useState<string[]>([]);
+  const { user } = useAuth();
   const [savedPosts, setSavedPosts] = useState<string[]>([]);
   const [followedUsers, setFollowedUsers] = useState<string[]>([]);
   const [posts, setPosts] = useState<DisplayPost[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [postsError, setPostsError] = useState<string | null>(null);
+  const [commentInputs, setCommentInputs] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const posts = await postsAPI.fetchPosts();
-        const mapped: DisplayPost[] = posts.map((post: ApiPost) => ({
-          id: post.id,
-          author: {
-            name: post.authorId,
-            avatar: undefined,
-            time: new Date(post.createdAt).toLocaleString(),
-          },
-          content: post.content,
-          likes: 0,
-          comments: 0,
-          shares: 0,
-          tags: post.tags,
-          image: post.image,
-        }));
-        setPosts(mapped);
+        setPosts(posts);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to load posts";
         setPostsError(message);
@@ -86,20 +60,66 @@ export default function CommunityPage() {
     { label: "Trade Events", icon: Calendar, route: "/trade-events" },
   ];
 
-  const toggleLike = (postId: string) => {
-    setLikedPosts(prev => 
-      prev.includes(postId) 
-        ? prev.filter(id => id !== postId)
-        : [...prev, postId]
-    );
-  };
-
   const toggleSave = (postId: string) => {
     setSavedPosts(prev =>
       prev.includes(postId)
         ? prev.filter(id => id !== postId)
         : [...prev, postId]
     );
+  };
+
+  const handleLike = async (postId: string) => {
+    if (!user) {
+      toast.info("Please sign in to like posts");
+      router.push("/login");
+      return;
+    }
+
+    try {
+      const response = await postsAPI.toggleLike(postId, user.id);
+      setPosts(prev =>
+        prev.map(post =>
+          post.id === postId ? { ...post, likes: response.likes } : post,
+        ),
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to like post";
+      toast.error(message);
+    }
+  };
+
+  const handleCommentChange = (postId: string, value: string) => {
+    setCommentInputs((prev) => ({
+      ...prev,
+      [postId]: value,
+    }));
+  };
+
+  const handleCommentSubmit = async (event: FormEvent, postId: string) => {
+    event.preventDefault();
+    const content = commentInputs[postId]?.trim();
+    if (!content) return;
+
+    if (!user) {
+      toast.info("Please sign in to comment");
+      router.push("/login");
+      return;
+    }
+
+    try {
+      const response = await postsAPI.createComment(postId, user.id, content);
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId
+            ? { ...post, comments: [...post.comments, response.comment] }
+            : post,
+        ),
+      );
+      setCommentInputs((prev) => ({ ...prev, [postId]: "" }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to comment";
+      toast.error(message);
+    }
   };
 
   const toggleFollow = (handle: string) => {
@@ -170,7 +190,7 @@ export default function CommunityPage() {
                             {post.author.name}
                           </h4>
                           <p className="text-text-muted dark:text-[#8B93A7] text-xs">
-                            {post.author.time}
+                            {new Date(post.createdAt).toLocaleString()}
                           </p>
                         </div>
                       </div>
@@ -211,18 +231,18 @@ export default function CommunityPage() {
                       <div className="flex items-center gap-6">
                         {/* Like */}
                         <button
-                          onClick={() => toggleLike(post.id)}
+                          onClick={() => handleLike(post.id)}
                           className="flex items-center gap-2 group"
                         >
                           <Heart
                             className={`w-5 h-5 transition-all ${
-                              likedPosts.includes(post.id)
+                              post.likes.includes(user?.id ?? '')
                                 ? 'fill-[#E11D48] text-[#E11D48] dark:fill-[#F43F5E] dark:text-[#F43F5E]'
                                 : 'text-text-muted dark:text-[#8B93A7] group-hover:text-[#E11D48] dark:group-hover:text-[#F43F5E]'
                             }`}
                           />
                           <span className="text-sm text-text-secondary dark:text-[#A7B0BF]">
-                            {post.likes + (likedPosts.includes(post.id) ? 1 : 0)}
+                            {post.likes.length}
                           </span>
                         </button>
 
@@ -230,7 +250,7 @@ export default function CommunityPage() {
                         <button className="flex items-center gap-2 group">
                           <MessageCircle className="w-5 h-5 text-text-muted dark:text-[#8B93A7] group-hover:text-[#E11D48] dark:group-hover:text-[#F43F5E] transition-colors" />
                           <span className="text-sm text-text-secondary dark:text-[#A7B0BF]">
-                            {post.comments}
+                            {post.comments.length}
                           </span>
                         </button>
 
@@ -238,7 +258,7 @@ export default function CommunityPage() {
                         <button className="flex items-center gap-2 group">
                           <Share2 className="w-5 h-5 text-text-muted dark:text-[#8B93A7] group-hover:text-[#E11D48] dark:group-hover:text-[#F43F5E] transition-colors" />
                           <span className="text-sm text-text-secondary dark:text-[#A7B0BF]">
-                            {post.shares}
+                            Share
                           </span>
                         </button>
                       </div>
@@ -258,6 +278,37 @@ export default function CommunityPage() {
                       </button>
                     </div>
                   </div>
+                  {post.comments.length > 0 && (
+                    <div className="px-6 pb-4 space-y-3">
+                      {post.comments.map((comment) => (
+                        <div key={comment.id} className="bg-bg-elev-2/60 dark:bg-[#1a1d1f]/60 rounded-xl p-3">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-semibold text-text-primary dark:text-[#E5E7EB]">
+                              {comment.author.name}
+                            </span>
+                            <span className="text-xs text-text-muted dark:text-[#8B93A7]">
+                              {new Date(comment.createdAt).toLocaleString()}
+                            </span>
+                          </div>
+                          <p className="text-sm text-text-secondary dark:text-[#A7B0BF]">{comment.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <form
+                    onSubmit={(event) => handleCommentSubmit(event, post.id)}
+                    className="px-6 pb-6 flex gap-2"
+                  >
+                    <Input
+                      value={commentInputs[post.id] ?? ""}
+                      onChange={(e) => handleCommentChange(post.id, e.target.value)}
+                      placeholder="Add a comment..."
+                      className="flex-1"
+                    />
+                    <Button type="submit" disabled={!commentInputs[post.id]?.trim()}>
+                      Comment
+                    </Button>
+                  </form>
                 </motion.article>
                 </StaggerItem>
               ))}

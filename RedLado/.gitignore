@@ -3,6 +3,7 @@ node_modules/
 
 # Build outputs
 dist/
+backend/dist/
 .next/
 
 # Environment variables

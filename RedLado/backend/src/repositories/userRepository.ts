@@ -26,6 +26,18 @@ export const findUserById = async (id: string): Promise<User | null> => {
   return user ? mapDocumentToUser(user) : null;
 };
 
+export const findUsersByIds = async (ids: string[]): Promise<Record<string, User>> => {
+  if (!ids.length) {
+    return {};
+  }
+
+  const users = await UserModel.find({ _id: { $in: ids } }).exec();
+  return users.reduce<Record<string, User>>((acc, user) => {
+    acc[user._id.toString()] = mapDocumentToUser(user);
+    return acc;
+  }, {});
+};
+
 interface CreateUserInput {
   email: string;
   name: string;
