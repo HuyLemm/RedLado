@@ -14,7 +14,6 @@ const userSchema = new mongoose_1.Schema({
     },
     bio: { type: String, default: '' },
     location: { type: String, default: '' },
-    website: { type: String, default: '' },
     favoriteGenres: { type: String, default: '' },
     steamProfile: { type: String, default: '' },
     discordTag: { type: String, default: '' },

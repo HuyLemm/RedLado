@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Bold, Italic, List, Image as ImageIcon, BarChart3, Eye, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Bold, Italic, List, Image as ImageIcon, BarChart3, Eye, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,9 +11,13 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import * as postsAPI from "@/lib/api/posts";
 
 export default function CreatePostPage() {
   const router = useRouter();
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const tagInputRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState<string[]>([]);
@@ -21,40 +25,103 @@ export default function CreatePostPage() {
   const [visibility, setVisibility] = useState('public');
   const [selectedGame, setSelectedGame] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [isGameSelectOpen, setIsGameSelectOpen] = useState(false);
+  const [imageData, setImageData] = useState<string | null>(null);
 
   const games = ['CS2', 'Valorant', 'Dota 2', 'TF2', 'Rust'];
 
-  const handleAddTag = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && tagInput.trim()) {
-      e.preventDefault();
-      if (!tags.includes(tagInput.trim()) && tags.length < 5) {
-        setTags([...tags, tagInput.trim()]);
-        setTagInput('');
-      }
+const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key !== "Enter") return;
+
+  e.preventDefault();
+  e.stopPropagation();
+  // Prevent Shadcn Select from opening when pressing Enter
+  if (e.nativeEvent.stopImmediatePropagation) {
+    e.nativeEvent.stopImmediatePropagation();
+  }
+
+  const value = tagInput.trim();
+  if (!value) {
+    setTagInput("");
+    if (tagInputRef.current) {
+      tagInputRef.current.value = "";
     }
-  };
+    return;
+  }
+
+  if (tags.includes(value)) {
+    setTagInput("");
+    if (tagInputRef.current) tagInputRef.current.value = "";
+    return;
+  }
+
+  if (tags.length >= 5) {
+    toast.info("You can add up to 5 tags");
+    return;
+  }
+
+  setTags([...tags, value]);
+  setTagInput("");
+  if (tagInputRef.current) {
+    tagInputRef.current.value = "";
+  }
+};
 
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
-  const handlePost = () => {
-    if (content.length < 10) {
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  const handlePost = async () => {
+    if (!user) {
+      toast.error("You must be logged in to create a post");
+      return;
+    }
+
+    if (content.trim().length < 10) {
       toast.error('Post must be at least 10 characters long');
       return;
     }
 
     setIsUploading(true);
-    setTimeout(() => {
-      setIsUploading(false);
+    try {
+      const payload = {
+        title: title.trim() || undefined,
+        content: content.trim(),
+        tags: tags.length ? tags : undefined,
+        game: selectedGame || undefined,
+        visibility: visibility as "public" | "followers" | "private",
+        authorId: user.id,
+        image: imageData || undefined,
+      };
+
+      await postsAPI.createPost(payload);
       toast.success('Post published successfully!');
       router.push('/community');
-    }, 1500);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to publish post';
+      toast.error(message);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handlePreview = () => {
     toast.info('Preview feature coming soon');
   };
+
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-bg-base dark:bg-[#0B0F0F] py-8">
@@ -119,16 +186,35 @@ export default function CreatePostPage() {
                       <List className="w-4 h-4" />
                     </Button>
                     <div className="h-6 w-px bg-stroke-muted dark:bg-[#1F2937] mx-1" />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 rounded-lg hover:bg-bg-elev-1 dark:hover:bg-[#111316] text-sm"
-                      title="Add Image"
-                    >
-                      <ImageIcon className="w-4 h-4 mr-1" />
+                    <label className="h-8 rounded-lg hover:bg-bg-elev-1 dark:hover:bg-[#111316] text-sm px-2 flex items-center gap-1 cursor-pointer text-text-primary dark:text-[#E5E7EB]">
+                      <ImageIcon className="w-4 h-4" />
                       Image
-                    </Button>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          if (!file) {
+                            setImageData(null);
+                            return;
+                          }
+                          if (!file.type.startsWith("image/")) {
+                            toast.error("Please select an image file");
+                            return;
+                          }
+                          if (file.size > 2 * 1024 * 1024) {
+                            toast.error("Image must be smaller than 2MB");
+                            return;
+                          }
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setImageData(reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                        }}
+                      />
+                    </label>
                     <Button
                       type="button"
                       variant="ghost"
@@ -151,6 +237,29 @@ export default function CreatePostPage() {
                   <div className="text-sm text-text-muted dark:text-[#8B93A7] mt-2">
                     {content.length}/1000 characters {content.length < 10 && '• Minimum 10 characters'}
                   </div>
+
+                  {imageData && (
+                    <div className="mt-4 rounded-xl border border-dashed border-stroke-muted dark:border-[#1F2937] p-4 bg-bg-elev-2/60 dark:bg-[#1a1d1f]/60 flex flex-col gap-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm text-text-muted dark:text-[#8B93A7]">Attached image preview</p>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setImageData(null)}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="w-3 h-3 mr-1" />
+                          Remove
+                        </Button>
+                      </div>
+                      <img
+                        src={imageData}
+                        alt="Post attachment preview"
+                        className="max-h-64 w-full object-contain rounded-lg"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Tags Input */}
@@ -179,9 +288,10 @@ export default function CreatePostPage() {
                   </div>
                   <Input
                     id="tags"
+                    ref={tagInputRef}
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={handleAddTag}
+                    onKeyDown={handleTagKeyDown}
                     placeholder="Add tags (max 5)..."
                     className="border-stroke-muted dark:border-[#1F2937] rounded-xl h-12 bg-bg-elev-2 dark:bg-[#1a1d1f]"
                     disabled={tags.length >= 5}
@@ -193,18 +303,29 @@ export default function CreatePostPage() {
                   <Label htmlFor="game" className="text-text-primary dark:text-[#E5E7EB] font-semibold mb-2 block">
                     Select Game
                   </Label>
-                  <Select value={selectedGame} onValueChange={setSelectedGame}>
-                    <SelectTrigger className="border-stroke-muted dark:border-[#1F2937] rounded-xl h-12 bg-bg-elev-2 dark:bg-[#1a1d1f]">
-                      <SelectValue placeholder="Choose a game..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {games.map((game) => (
-                        <SelectItem key={game} value={game.toLowerCase()}>
-                          {game}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="relative">
+                    <Select
+                      value={selectedGame}
+                      onValueChange={setSelectedGame}
+                      onOpenChange={setIsGameSelectOpen}
+                    >
+                      <SelectTrigger className="border-stroke-muted dark:border-[#1F2937] rounded-xl h-12 bg-bg-elev-2 dark:bg-[#1a1d1f]">
+                        <SelectValue placeholder="Choose a game..." />
+                      </SelectTrigger>
+                      <SelectContent
+                        position="popper"
+                        side="bottom"
+                        align="start"
+                        className="z-[60] bg-white/90 dark:bg-[#111316]/90 backdrop-blur-lg border border-stroke-muted dark:border-[#1F2937] rounded-xl shadow-xl"
+                      >
+                        {games.map((game) => (
+                          <SelectItem key={game} value={game.toLowerCase()}>
+                            {game}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 {/* Visibility */}
@@ -241,8 +362,8 @@ export default function CreatePostPage() {
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={handlePost}
-                disabled={isUploading || content.length < 10}
-                className="bg-[#E2233B] hover:bg-[#BE1E31] dark:bg-[#F43F5E] dark:hover:bg-[#E2233B] text-white rounded-xl h-12 px-8"
+                disabled={isUploading || content.trim().length < 10 || !user}
+                className="bg-[#E2233B] hover:bg-[#BE1E31] dark:bg-[#F43F5E] dark:hover:bg-[#E2233B] text-white rounded-xl h-12 px-8 disabled:opacity-60"
               >
                 {isUploading ? 'Publishing...' : 'Post'}
               </Button>

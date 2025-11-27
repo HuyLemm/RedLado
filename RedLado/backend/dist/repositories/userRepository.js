@@ -11,7 +11,6 @@ const mapDocumentToUser = (doc) => ({
     role: doc.role,
     bio: doc.bio,
     location: doc.location,
-    website: doc.website,
     favoriteGenres: doc.favoriteGenres,
     steamProfile: doc.steamProfile,
     discordTag: doc.discordTag,

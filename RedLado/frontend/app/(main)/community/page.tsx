@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -8,60 +8,69 @@ import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, TrendingUp, Use
 import { useRouter } from "next/navigation";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { StaggerContainer, StaggerItem } from "@/components/animations/StaggerContainer";
+import * as postsAPI from "@/lib/api/posts";
+import { Post as ApiPost } from "@/types/post";
+
+type DisplayPost = {
+  id: string;
+  author: {
+    name: string;
+    avatar?: string;
+    time: string;
+  };
+  content: string;
+  image?: string;
+  likes: number;
+  comments: number;
+  shares: number;
+  tags?: string[];
+};
 
 export default function CommunityPage() {
   const router = useRouter();
-  const [likedPosts, setLikedPosts] = useState<number[]>([]);
-  const [savedPosts, setSavedPosts] = useState<number[]>([]);
+  const [likedPosts, setLikedPosts] = useState<string[]>([]);
+  const [savedPosts, setSavedPosts] = useState<string[]>([]);
   const [followedUsers, setFollowedUsers] = useState<string[]>([]);
+  const [posts, setPosts] = useState<DisplayPost[]>([]);
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const [postsError, setPostsError] = useState<string | null>(null);
 
-  const posts = [
-    {
-      id: 1,
-      author: {
-        name: "ProTrader_CS",
-        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100",
-        time: "2 hours ago"
-      },
-      content: "Just completed my biggest trade yet! Managed to snag a Factory New Karambit Fade for an absolute steal. The key is patience and knowing market trends. Anyone else had success with high-tier knives recently?",
-      image: "https://images.unsplash.com/photo-1758598497271-691207e1586d?w=800",
-      likes: 342,
-      comments: 89,
-      shares: 12
-    },
-    {
-      id: 2,
-      author: {
-        name: "SkinCollector",
-        avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100",
-        time: "5 hours ago"
-      },
-      content: "New to trading? Here are my top 5 tips for beginners:\n\n1. Always check market trends before buying\n2. Use price tracking tools\n3. Don't rush into trades\n4. Verify seller reputation\n5. Start small and learn\n\nWhat would you add to this list? Drop your tips below!",
-      likes: 521,
-      comments: 156,
-      shares: 43
-    },
-    {
-      id: 3,
-      author: {
-        name: "ESportsGuru",
-        avatar: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=100",
-        time: "1 day ago"
-      },
-      content: "The CS2 Major is coming up! Time to stock up on team stickers and capsules. Historical data shows prices spike 2-3 weeks after the event. Who else is investing?",
-      image: "https://images.unsplash.com/photo-1759701547467-a54a5e86a4f0?w=800",
-      likes: 891,
-      comments: 203,
-      shares: 67
-    },
-  ];
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const posts = await postsAPI.fetchPosts();
+        const mapped: DisplayPost[] = posts.map((post: ApiPost) => ({
+          id: post.id,
+          author: {
+            name: post.authorId,
+            avatar: undefined,
+            time: new Date(post.createdAt).toLocaleString(),
+          },
+          content: post.content,
+          likes: 0,
+          comments: 0,
+          shares: 0,
+          tags: post.tags,
+          image: post.image,
+        }));
+        setPosts(mapped);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load posts";
+        setPostsError(message);
+      } finally {
+        setIsLoadingPosts(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const trendingTopics = [
     { tag: "CS2Major", posts: "12.5K" },
@@ -77,7 +86,7 @@ export default function CommunityPage() {
     { label: "Trade Events", icon: Calendar, route: "/trade-events" },
   ];
 
-  const toggleLike = (postId: number) => {
+  const toggleLike = (postId: string) => {
     setLikedPosts(prev => 
       prev.includes(postId) 
         ? prev.filter(id => id !== postId)
@@ -85,7 +94,7 @@ export default function CommunityPage() {
     );
   };
 
-  const toggleSave = (postId: number) => {
+  const toggleSave = (postId: string) => {
     setSavedPosts(prev =>
       prev.includes(postId)
         ? prev.filter(id => id !== postId)
@@ -122,7 +131,16 @@ export default function CommunityPage() {
             MAIN FEED - Content width max 760px 
           */}
           <div className="max-w-[760px] flex-shrink-0">
-            <StaggerContainer className="space-y-6">
+            <StaggerContainer className="space-y-6" key={posts.map((post) => post.id).join("-")}>
+              {isLoadingPosts && (
+                <p className="text-center text-text-muted dark:text-[#8B93A7] py-8">Loading posts...</p>
+              )}
+              {postsError && !isLoadingPosts && (
+                <p className="text-center text-destructive py-4">{postsError}</p>
+              )}
+              {!posts.length && !isLoadingPosts && !postsError && (
+                <p className="text-center text-text-muted py-8">No posts yet. Be the first to share something!</p>
+              )}
               {posts.map((post) => (
                 <StaggerItem key={post.id}>
                   <motion.article
@@ -135,11 +153,17 @@ export default function CommunityPage() {
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <Avatar className="w-8 h-8 rounded-full overflow-hidden bg-bg-elev-2 dark:bg-[#1a1d1f]">
-                          <ImageWithFallback
-                            src={post.author.avatar}
-                            alt={post.author.name}
-                            className="w-full h-full object-cover"
-                          />
+                          {post.author.avatar ? (
+                            <ImageWithFallback
+                              src={post.author.avatar}
+                              alt={post.author.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <AvatarFallback className="bg-[#E11D48] dark:bg-[#F43F5E] text-white text-xs">
+                              {post.author.name?.[0]?.toUpperCase() ?? "U"}
+                            </AvatarFallback>
+                          )}
                         </Avatar>
                         <div>
                           <h4 className="text-text-primary dark:text-[#E5E7EB] font-semibold text-sm">

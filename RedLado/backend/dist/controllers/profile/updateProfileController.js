@@ -24,7 +24,6 @@ const updateProfileController = async (req, res, next) => {
                 role: user.role,
                 bio: user.bio,
                 location: user.location,
-                website: user.website,
                 favoriteGenres: user.favoriteGenres,
                 steamProfile: user.steamProfile,
                 discordTag: user.discordTag,

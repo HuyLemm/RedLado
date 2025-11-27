@@ -13,7 +13,9 @@ app.use((0, cors_1.default)({
     origin: env_1.config.clientOrigin,
     credentials: true,
 }));
-app.use(express_1.default.json());
+app.use(express_1.default.json({
+    limit: '5mb',
+}));
 app.get('/health', (_req, res) => {
     res.json({ status: 'ok' });
 });

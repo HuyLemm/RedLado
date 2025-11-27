@@ -1,6 +1,6 @@
 # RedLado Backend (Node + Express)
 
-This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes `/api/auth/login`, `/api/auth/signup`, and `/api/profile/:id` (PATCH) endpoints backed by MongoDB (Atlas) via Mongoose.
+This directory now contains a lightweight Node/Express backend used for authentication prototyping. It exposes `/api/auth/login`, `/api/auth/signup`, `/api/profile/:id` (PATCH), and `/api/posts` endpoints backed by MongoDB (Atlas) via Mongoose.
 
 ## Getting Started
 
@@ -34,6 +34,8 @@ backend/
     │       └── signupController.ts
     │   └── profile/
     │       └── updateProfileController.ts
+    │   └── posts/
+    │       └── createPostController.ts
     ├── middleware/
     │   ├── error/
     │   │   └── errorHandler.ts
@@ -41,18 +43,24 @@ backend/
     │       └── validateRequest.ts
     ├── models/
     │   ├── user.model.ts
-    │   └── user.ts
+    │   ├── user.ts
+    │   ├── post.model.ts
+    │   └── post.ts
     ├── repositories/
-    │   └── userRepository.ts
+    │   ├── userRepository.ts
+    │   └── postRepository.ts
     ├── routes/
     │   ├── auth/
     │   │   └── auth.routes.ts
     │   ├── profile/
     │   │   └── profile.routes.ts
+    │   ├── posts/
+    │   │   └── posts.routes.ts
     │   └── index.ts
     ├── schemas/
     │   ├── authSchemas.ts
-    │   └── profileSchemas.ts
+    │   ├── profileSchemas.ts
+    │   └── postSchemas.ts
     ├── seeders/
     │   └── userSeeder.ts
     ├── services/
@@ -60,6 +68,8 @@ backend/
     │   │   └── authService.ts
     │   └── profile/
     │       └── profileService.ts
+    │   └── posts/
+    │       └── postService.ts
     └── utils/
         ├── password.ts
         └── token.ts

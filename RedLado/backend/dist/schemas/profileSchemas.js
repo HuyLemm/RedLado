@@ -7,7 +7,6 @@ exports.updateProfileSchema = zod_1.z.object({
     email: zod_1.z.string().email().optional(),
     bio: zod_1.z.string().max(500).optional(),
     location: zod_1.z.string().max(120).optional(),
-    website: zod_1.z.string().url().optional(),
     favoriteGenres: zod_1.z.string().max(120).optional(),
     steamProfile: zod_1.z.string().max(120).optional(),
     discordTag: zod_1.z.string().max(37).optional(),
